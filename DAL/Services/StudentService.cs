@@ -18,17 +18,17 @@ namespace DAL.Services
 
         public IQueryable<Student> GetById(int studentId)
         {
-            return _context.Students.Where(s => s.Id == studentId);
+            return _context.Students.Where(x => x.StudentId == studentId);
         }
 
         public IQueryable<Student> GetByUserId(int userId)
         {
-            return _context.Students.Where(s => s.UserId == userId);
+            return _context.Students.Where(x => x.UserId == userId);
         }
         
         public IQueryable<Student> GetByUniversityId(int universityId)
         {
-            return _context.Students.Where(s => s.UniversityId == universityId);
+            return _context.Students.Where(x => x.UniversityId == universityId);
         }
 
         public async Task Add(Student student)

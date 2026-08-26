@@ -1,10 +1,10 @@
 ﻿using DAL.Entities;
 namespace DAL.Services
 {
-    internal class UniversitySerivce
+    public class UniversityService : IUniversityService
     {
         private readonly AppDbContext _context;
-        public UniversitySerivce(AppDbContext context)
+        public UniversityService(AppDbContext context)
         {
             _context = context;
         }

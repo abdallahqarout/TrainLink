@@ -1,4 +1,5 @@
 using DAL;
+using DAL.Service;
 using DAL.Services;
 using Microsoft.EntityFrameworkCore;
 namespace TrainLink
@@ -16,6 +17,11 @@ namespace TrainLink
             //Service 
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUniversityService, UniversityService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
+            builder.Services.AddScoped<ICompanySupervisorService, CompanySupervisorService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

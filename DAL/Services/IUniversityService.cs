@@ -1,7 +1,7 @@
 ﻿using DAL.Entities;
-namespace DAL.Service
+namespace DAL.Services
 {
-    internal interface IUniversityService
+    public interface IUniversityService
     {
         IQueryable<University> GetAll();
         IQueryable<University> GetById(int universityId);

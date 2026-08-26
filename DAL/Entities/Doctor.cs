@@ -1,18 +1,17 @@
 ﻿
-
 namespace DAL.Entities
 {
-    public class Student
+    public class Doctor
     {
-        public int StudentId { get; set; } // Primary key
+        public int DoctorId { get; set; } // Primary key
         public int UserId { get; set; } // Foreign key to User
         public int UniversityId { get; set; } // Foreign key to University
-        public string StudentNumber { get; set; } // student number
-        public string major { get; set; } // student major
+        public string Name { get; set; } // name of doctor
 
         // Relationships
         public User User { get; set; } 
         public University University { get; set; }
+
 
     }
 }

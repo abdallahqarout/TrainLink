@@ -11,7 +11,7 @@ namespace DAL.Services
 
         IQueryable<User> GetByEmail(string email);
 
-        Task Add(User user);
+        Task Add(User user)
 
         Task Update(User user);
 

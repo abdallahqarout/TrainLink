@@ -10,7 +10,7 @@ namespace DAL.Services
 
         Task Add(Student student);
         Task Update(Student student);
-        Task Delete(Student student);
+        Task Delete(int studentId);
 
     }
 }
