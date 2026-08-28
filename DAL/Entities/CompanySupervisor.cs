@@ -1,5 +1,4 @@
-﻿using DAL.Entities;
-
+﻿using System;
 namespace DAL.Entities
 {
     public class CompanySupervisor

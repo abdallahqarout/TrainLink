@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DAL.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL
@@ -16,6 +17,15 @@ namespace DAL
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanySupervisor> CompanySupervisors { get; set; }
+        public DbSet<Training> Trainings { get; set; }
+        public DbSet<WeeklyReport> WeeklyReports { get; set; }  
+        public DbSet<FinalReport> FinalReports { get; set; }
+        public DbSet<FinalReportReference> FinalReportReferences { get; set; }
+        public DbSet<FinalReportAppendix> FinalReportAppendices { get; set; }
+        public DbSet<FinalReportTask> FinalReportTasks { get; set; }
+        public DbSet<ReportReviewService> ReportReviewServices { get; set; }
+        
+
 
 
     }

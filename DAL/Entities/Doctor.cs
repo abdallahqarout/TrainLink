@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace DAL.Entities
 {
     public class Doctor

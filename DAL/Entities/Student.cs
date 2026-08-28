@@ -1,5 +1,4 @@
-﻿
-
+﻿using System;
 namespace DAL.Entities
 {
     public class Student

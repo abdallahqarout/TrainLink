@@ -22,6 +22,13 @@ namespace TrainLink
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<ICompanySupervisorService, CompanySupervisorService>();
+            builder.Services.AddScoped<ITrainingService, TrainingService>();
+            builder.Services.AddScoped<IWeeklyReportService, WeeklyReportService>();
+            builder.Services.AddScoped<IFinalReportService, FinalReportService>();
+            builder.Services.AddScoped<IReportReviewService, ReportReviewService>();
+            builder.Services.AddScoped<IFinalReportReferenceService, FinalReportReferenceService>();
+            builder.Services.AddScoped<IFinalReportAppendixService, FinalReportAppendixService>();
+            builder.Services.AddScoped<IFinalReportTaskService, FinalReportTaskService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
