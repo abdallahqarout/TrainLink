@@ -25,7 +25,7 @@ namespace DAL.Services
         {
             return _context.Students.Where(x => x.UserId == userId);
         }
-        
+
         public IQueryable<Student> GetByUniversityId(int universityId)
         {
             return _context.Students.Where(x => x.UniversityId == universityId);
@@ -42,7 +42,8 @@ namespace DAL.Services
             _context.Students.Update(student);
             await _context.SaveChangesAsync();
         }
-        public async Task Delete(int studentId) {
+        public async Task Delete(int studentId)
+        {
             var student = await _context.Students.FindAsync(studentId);
             if (student != null)
             {
@@ -51,4 +52,5 @@ namespace DAL.Services
             }
 
         }
+    }
 }

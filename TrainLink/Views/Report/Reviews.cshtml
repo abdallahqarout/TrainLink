@@ -1,0 +1,65 @@
+﻿@model IQueryable<DAL.Entities.ReportReview>
+@{
+    ViewData["Title"] = "Report Reviews";
+}
+<div class="container py-5">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">
+            Report Reviews
+        </h2>
+        <p class="text-muted mb-0">
+            View reviews submitted for training reports
+        </p>
+    </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Review ID</th>
+                            <th>Weekly Report</th>
+                            <th>Final Report</th>
+                            <th>Reviewer</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var review in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @review.ReportReviewId
+                                    </td>
+                                    <td>
+                                        @(review.WeeklyReportId?.ToString() ?? "-")
+                                    </td>
+                                    <td>
+                                        @(review.FinalReportId?.ToString() ?? "-")
+                                    </td>
+                                    <td>
+                                        @review.ReviewerUserId
+                                    </td>
+                                    <td>
+                                        @review.Comments
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center py-5 text-muted">
+                                    No reviews found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

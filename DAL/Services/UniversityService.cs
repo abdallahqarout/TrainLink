@@ -44,12 +44,13 @@ namespace DAL.Services
         }
         public async Task Delete(University university)
         {
-            var university = await _context.universities.
-                FindAsync(university.UniversityId);
+            var existingUniversity = await _context.Universities
+                .FindAsync(university.UniversityId);
 
-            if (university != null)
+            if (existingUniversity != null)
             {
-                _context.Universities.Remove(university);
+                _context.Universities.Remove(existingUniversity);
+
                 await _context.SaveChangesAsync();
             }
         }

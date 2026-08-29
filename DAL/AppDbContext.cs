@@ -1,5 +1,4 @@
 ﻿using DAL.Entities;
-using DAL.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL
@@ -23,7 +22,7 @@ namespace DAL
         public DbSet<FinalReportReference> FinalReportReferences { get; set; }
         public DbSet<FinalReportAppendix> FinalReportAppendices { get; set; }
         public DbSet<FinalReportTask> FinalReportTasks { get; set; }
-        public DbSet<ReportReviewService> ReportReviewServices { get; set; }
+        public DbSet<ReportReview> ReportReviews { get; set; }
         
 
 

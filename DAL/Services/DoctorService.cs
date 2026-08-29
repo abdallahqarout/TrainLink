@@ -1,5 +1,4 @@
 ﻿using DAL.Entities;
-
 namespace DAL.Services
 {
     public class DoctorService : IDoctorService
@@ -33,10 +32,20 @@ namespace DAL.Services
             _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
         }
-        public async Task Updae(Doctor doctor)
+        public async Task Update(Doctor doctor)
         {
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
         }
+        public async Task Delete(int doctorId) {
+            var doctor = await _context.Users.FindAsync(doctorId);
+
+            if (doctor != null)
+            {
+                _context.Users.Remove(doctor);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

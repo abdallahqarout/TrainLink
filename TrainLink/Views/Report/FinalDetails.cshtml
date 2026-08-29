@@ -1,0 +1,131 @@
+﻿@model DAL.Entities.FinalReport
+@{
+    ViewData["Title"] = "Final Report Details";
+}
+<div class="container py-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                Final Report Details
+            </h3>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">
+                        Final Report ID
+                    </label>
+                    <div class="form-control bg-light">
+                        @Model.FinalReportId
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">
+                        Training ID
+                    </label>
+                    <div class="form-control bg-light">
+                        @Model.TrainingId
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Acknowledgement
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.Acknowledgement
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Company Background
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.CompanyBackground
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Company Products
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.companyProducts
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Company Organizational Structure
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.CompanyStructure
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Formal Training Received
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.FormalReceived
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Relation of Training Experience to Study
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.RelateExpToStudy
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-semibold">
+                        Conclusion
+                    </label>
+                    <div class="form-control bg-light"
+                         style="height:auto; min-height:100px;">
+                        @Model.Conclusion
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">
+                        Submission Date
+                    </label>
+                    <div class="form-control bg-light">
+                        @Model.SubmissionDate.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="d-flex gap-2 mt-3">
+                <a asp-action="EditFinal"
+                   asp-route-id="@Model.FinalReportId"
+                   class="btn btn-primary">
+                    Edit
+                </a>
+                <a asp-action="Tasks"
+                   asp-route-finalReportId="@Model.FinalReportId"
+                   class="btn btn-success">
+                    Tasks
+                </a>
+                <a asp-action="References"
+                   asp-route-finalReportId="@Model.FinalReportId"
+                   class="btn btn-warning">
+                    References
+                </a>
+                <a asp-action="Appendices"
+                   asp-route-finalReportId="@Model.FinalReportId"
+                   class="btn btn-secondary">
+                    Appendices
+                </a>
+                <a asp-action="Final"
+                   class="btn btn-dark">
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

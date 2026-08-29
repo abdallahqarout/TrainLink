@@ -15,7 +15,7 @@ namespace DAL.Services
         public IQueryable<ReportReview> GetById(int reportReviewId)
         {
             return _context.ReportReviews
-                .Where(x => x.Id == reportReviewId);
+                .Where(x => x.ReportReviewId == reportReviewId);
         }
         public IQueryable<ReportReview> GetByWeeklyReportId(int weeklyReportId)
         {

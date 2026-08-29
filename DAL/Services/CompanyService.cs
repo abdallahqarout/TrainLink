@@ -29,7 +29,7 @@ namespace DAL.Services
         }
         public async Task Update(Company company)
         { 
-            _context.Comanies.UpdateAsync(company);
+            _context.Companies.Update(company);
             await _context.SaveChangesAsync();
 
         }

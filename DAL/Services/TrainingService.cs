@@ -18,7 +18,7 @@ namespace DAL.Services
         public IQueryable<Training> GetById(int trainId)
         {
             return _context.Trainings
-                .Where(t => t.Id == trainId);
+                .Where(t => t.TrainingId == trainId);
         }
 
         public IQueryable<Training> GetByStudentId(int studentId)

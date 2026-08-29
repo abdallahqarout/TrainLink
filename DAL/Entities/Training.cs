@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace DAL.Entities
 {
     public class Training
@@ -16,6 +17,5 @@ namespace DAL.Entities
         public CompanySupervisor CompanySupervisor { get; set; }
         public ICollection<WeeklyReport> WeeklyReports { get; set; }
         public ICollection<FinalReport> FinalReports { get; set; }
-        public ICollection<CompanyEvaluation> CompanyEvaluations { get; set; }
     }
 }

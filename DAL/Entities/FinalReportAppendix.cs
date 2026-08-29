@@ -1,15 +1,13 @@
-﻿using System;
-
-
-namespace DAL.Entities
+﻿namespace DAL.Entities
 {
     public class FinalReportAppendix
     {
-        public int FinalReportAppendixId { get; set; } // Primary key
-        public int FinalReportId { get; set; } // Foreign key to FinalReport
+        public int FinalReportAppendixId { get; set; }
+        public int FinalReportId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string FilePath { get; set; } // Path to the appendix file
-        public FinalReport FinalReport { get; set; } // Navigation property to the FinalReport entity
+        public string FilePath { get; set; }
+        // Relationship
+        public FinalReport FinalReport { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 using DAL;
-using DAL.Service;
 using DAL.Services;
 using Microsoft.EntityFrameworkCore;
 namespace TrainLink
@@ -51,7 +50,7 @@ namespace TrainLink
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Report}/{action=CreateWeekly}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
