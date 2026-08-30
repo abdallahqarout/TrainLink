@@ -18,14 +18,18 @@
                 Manage final training reports
             </p>
         </div>
+        @if (Context.Session.GetString("Role") == "Student")
+        {
+            <a asp-action="CreateFinal"
+               class="btn btn-primary">
 
-        <a asp-action="CreateFinal"
-           class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i>
+                Create Final Report
 
-            <i class="bi bi-plus-lg"></i>
-            Create Final Report
-
-        </a>
+            </a>
+            
+        }
+        
 
     </div>
 

@@ -1,36 +1,62 @@
 ﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 namespace DAL.Services
 {
     public class TrainingService : ITrainingService  
     {
         private readonly AppDbContext _context;
 
-        public TrainingService(AppDbContext _context)
+        public TrainingService(AppDbContext context)
         {
-            _context = _context;
+            _context = context;
         }
 
         public IQueryable<Training> GetAll()
         {
-            return _context.Trainings;
+            return _context.Trainings
+                .Include(t => t.Student)
+                    .ThenInclude(s => s.User)
+                .Include(t => t.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(t => t.Company)
+                .Include(t => t.CompanySupervisor)
+                    .ThenInclude(cs => cs.User);
         }
 
         public IQueryable<Training> GetById(int trainId)
         {
             return _context.Trainings
+                .Include(t => t.Student)
+                .Include(t => t.Doctor)
+                .Include(t => t.Company)
+                .Include(t => t.CompanySupervisor)
                 .Where(t => t.TrainingId == trainId);
         }
 
         public IQueryable<Training> GetByStudentId(int studentId)
         {
             return _context.Trainings
-                .Where(t => t.StudentId == studentId);
+                .Where(t => t.StudentId == studentId)
+                .Include(t => t.Student)
+                    .ThenInclude(s => s.User)
+                .Include(t => t.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(t => t.Company)
+                .Include(t => t.CompanySupervisor)
+                    .ThenInclude(cs => cs.User);
         }
 
         public IQueryable<Training> GetByDoctorId(int doctorId)
         {
             return _context.Trainings
-                .Where(t => t.DoctorId == doctorId);
+                .Where(t => t.DoctorId == doctorId)
+                .Include(t => t.Student)
+                    .ThenInclude(s => s.User)
+                .Include(t => t.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(t => t.Company)
+                .Include(t => t.CompanySupervisor)
+                    .ThenInclude(cs => cs.User);
         }
 
         public IQueryable<Training> GetByCompanyId(int companyId)
@@ -42,7 +68,14 @@ namespace DAL.Services
         public IQueryable<Training> GetByCompanySupervisorId(int companySupervisorId)
         {
             return _context.Trainings
-                .Where(t => t.CompanySupervisorId == companySupervisorId);
+                .Where(t => t.CompanySupervisorId == companySupervisorId)
+                .Include(t => t.Student)
+                    .ThenInclude(s => s.User)
+                .Include(t => t.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(t => t.Company)
+                .Include(t => t.CompanySupervisor)
+                    .ThenInclude(cs => cs.User);
         }
 
         public async Task Add(Training training)

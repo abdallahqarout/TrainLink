@@ -31,9 +31,76 @@ namespace TrainLink.Controllers
 
         public ActionResult Index()
         {
-            var trinings = _trainingService.GetAll();
-            return View(trinings);
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var role = HttpContext.Session.GetString("Role");
 
+            if (userId == null || string.IsNullOrEmpty(role))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            IQueryable<Training> trainings;
+
+            switch (role)
+            {
+                case "Doctor":
+
+                    var doctor = _doctorService
+                        .GetByUserId(userId.Value)
+                        .FirstOrDefault();
+
+                    if (doctor == null)
+                        return Unauthorized();
+
+                    trainings = _trainingService
+                        .GetByDoctorId(doctor.DoctorId);
+
+                    break;
+
+
+                case "Student":
+
+                    var student = _studentService
+                        .GetByUserId(userId.Value)
+                        .FirstOrDefault();
+
+                    if (student == null)
+                        return Unauthorized();
+
+                    trainings = _trainingService
+                        .GetByStudentId(student.StudentId);
+
+                    break;
+
+
+                case "CompanySupervisor":
+
+                    var supervisor = _companySupervisorService
+                        .GetByUserId(userId.Value)
+                        .FirstOrDefault();
+
+                    if (supervisor == null)
+                        return Unauthorized();
+
+                    trainings = _trainingService
+                        .GetByCompanySupervisorId(
+                            supervisor.CompanySupervisorId);
+
+                    break;
+
+
+                case "Admin":
+
+                    trainings = _trainingService.GetAll();
+
+                    break;
+
+
+                default:
+                    return Unauthorized();
+            }
+
+            return View(trainings);
         }
 
         //CREATE
@@ -72,7 +139,8 @@ namespace TrainLink.Controllers
         //EDIT
         public IActionResult Edit(int id)
         {
-            var training = _trainingService.GetById(id).FirstOrDefault();
+            var training = _trainingService
+                .GetById(id).FirstOrDefault();
 
             if (training == null)
             {
@@ -111,7 +179,7 @@ namespace TrainLink.Controllers
             ViewBag.Students = new SelectList(
                 _studentService.GetAll(),
                 "StudentId",
-                "StudentNumber"
+                "Name"
             );
             ViewBag.Doctors = new SelectList(
                 _doctorService.GetAll(),

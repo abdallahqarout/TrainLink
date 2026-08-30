@@ -13,11 +13,15 @@
                 Manage your weekly training reports
             </p>
         </div>
-        <a asp-controller="Report"
-           asp-action="CreateWeekly"
-           class="btn btn-primary">
-            + Create Weekly Report
-        </a>
+            @if (Context.Session.GetString("Role") == "Student")
+        {
+            <a asp-controller="Report"
+               asp-action="CreateWeekly"
+               class="btn btn-primary">
+                Create Weekly Report
+            </a>
+        }
+        
     </div>
     <div class="card shadow-sm border-0">
         <div class="card-body p-0">
@@ -29,7 +33,7 @@
                             <th>Training ID</th>
                             <th>Date From</th>
                             <th>Date To</th>
-                            <th>Submission Date</th>
+                            @*<th>Submission Date</th>*@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -46,10 +50,10 @@
                                         @report.TrainingId
                                     </td>
                                     <td>
-                                        @report.StartDate.ToString("dd/MM/yyyy")
+                                        @report.DateFrom.ToString("dd/MM/yyyy")
                                     </td>
                                     <td>
-                                        @report.EndDate.ToString("dd/MM/yyyy")
+                                        @report.DateTo.ToString("dd/MM/yyyy")
                                     </td>
                                     @*td>
                                         @report.SubmissionDate.ToString("dd/MM/yyyy")
@@ -60,22 +64,26 @@
                                            class="btn btn-sm btn-outline-info">
                                             Details
                                         </a>
-                                        <a asp-action="EditWeekly"
-                                           asp-route-id="@report.WeeklyReportId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Edit
-                                        </a>
-                                        <form asp-action="DeleteWeekly"
-                                              asp-route-id="@report.WeeklyReportId"
-                                              method="post"
-                                              class="d-inline">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Are you sure you want to delete this report?');">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        @if (Context.Session.GetString("Role") == "Admin")
+                                        {
+                                            <a asp-action="EditWeekly"
+                                               asp-route-id="@report.WeeklyReportId"
+                                               class="btn btn-sm btn-outline-primary">
+                                                Edit
+                                            </a>
+                                            <form asp-action="DeleteWeekly"
+                                                  asp-route-id="@report.WeeklyReportId"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this report?');">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        }
+                                        
                                     </td>
                                 </tr>
                             }

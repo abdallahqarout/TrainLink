@@ -3,15 +3,21 @@
 @{
     ViewData["Title"] = "Weekly Report Details";
 }
+
 <div class="container py-5">
+
     <div class="card shadow-sm border-0">
+
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">
-                Weekly Report Details
+                Weekly Report - Week @Model.WeekNumber
             </h3>
         </div>
+
         <div class="card-body p-4">
+
             <div class="row">
+
                 <div class="col-md-6 mb-3">
                     <label class="fw-semibold">
                         Training ID
@@ -20,6 +26,7 @@
                         @Model.TrainingId
                     </div>
                 </div>
+
                 <div class="col-md-6 mb-3">
                     <label class="fw-semibold">
                         Week Number
@@ -28,58 +35,67 @@
                         @Model.WeekNumber
                     </div>
                 </div>
+
                 <div class="col-md-6 mb-3">
                     <label class="fw-semibold">
                         Date From
                     </label>
                     <div class="form-control bg-light">
-                        @Model.StartDate.ToString("dd/MM/yyyy")
+                        @Model.DateFrom.ToString("dd/MM/yyyy")
                     </div>
                 </div>
+
                 <div class="col-md-6 mb-3">
                     <label class="fw-semibold">
                         Date To
                     </label>
                     <div class="form-control bg-light">
-                        @Model.EndDate.ToString("dd/MM/yyyy")
+                        @Model.DateTo.ToString("dd/MM/yyyy")
                     </div>
                 </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-semibold">
+                        Hours Worked
+                    </label>
+                    <div class="form-control bg-light">
+                        @Model.HoursWorked
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-semibold">
+                        Status
+                    </label>
+                    <div class="form-control bg-light">
+                        @Model.Status
+                    </div>
+                </div>
+
             </div>
+
             <div class="mb-4">
                 <label class="fw-semibold">
                     Completed Tasks and Activities
                 </label>
+
                 <div class="form-control bg-light"
                      style="min-height:120px; white-space:pre-line;">
                     @Model.Tasks
                 </div>
             </div>
+
             <div class="mb-4">
                 <label class="fw-semibold">
-                    Skills Learned
+                    Challenges
                 </label>
+
                 <div class="form-control bg-light"
                      style="min-height:120px; white-space:pre-line;">
-                    @Model.Skills
+                    @Model.Challenges
                 </div>
             </div>
-            <div class="mb-4">
-                <label class="fw-semibold">
-                    Supervisor Remarks
-                </label>
-                <div class="form-control bg-light"
-                     style="min-height:120px; white-space:pre-line;">
-                    @Model.Remark
-                </div>
-            </div>
-            <div class="mb-4">
-                <label class="fw-semibold">
-                    Submission Date
-                </label>
-                @*<div class="form-control bg-light">
-                    @Model.SubmissionDate.ToString("dd/MM/yyyy")
-                </div>*@
-            </div>
+
             <div class="d-flex gap-2">
                 <a asp-action="EditWeekly"
                    asp-route-id="@Model.WeeklyReportId"

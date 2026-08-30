@@ -43,8 +43,8 @@ namespace TrainLink.Controllers
 		{
 			var report = new WeeklyReport
 			{
-				StartDate = DateTime.Today,
-				EndDate = DateTime.Today,
+				DateFrom = DateTime.Today,
+				DateTo = DateTime.Today,
 				CreatedAt = DateTime.Now,
 				UpdatedAt = DateTime.Now,
 				Status = "Pending"
@@ -122,8 +122,8 @@ namespace TrainLink.Controllers
 				return NotFound();
 			}
 
-			return View(report);
-		}
+            return View("~/Views/Report/WeeklyDetails.cshtml", report);
+        }
 
 
 		// DELETE WEEKLY
@@ -417,9 +417,7 @@ namespace TrainLink.Controllers
 					finalReportId = appendix.FinalReportId
 				});
 		}
-
-
-		// REPORT REVIEWS
+		/// REPORT REVIEWS
 		public IActionResult Reviews()
 		{
 			var reviews = _reportReviewService.GetAll();

@@ -64,7 +64,7 @@
                         Start Date
                     </label>
                     <div class="form-control bg-light">
-                        @Model.StartDate.ToString("dd/MM/yyyy")
+                        @Model.DateFrom.ToString("dd/MM/yyyy")
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -72,16 +72,12 @@
                         End Date
                     </label>
                     <div class="form-control bg-light">
-                        @Model.EndDate.ToString("dd/MM/yyyy")
+                        @Model.DateTo.ToString("dd/MM/yyyy")
                     </div>
                 </div>
             </div>
             <div class="d-flex gap-2 mt-3">
-                <a asp-action="Edit"
-                   asp-route-id="@Model.TrainingId"
-                   class="btn btn-primary">
-                    Edit
-                </a>
+                
                 <a asp-action="Index"
                    class="btn btn-secondary">
                     Back

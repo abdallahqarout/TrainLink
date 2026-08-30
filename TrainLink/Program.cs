@@ -1,6 +1,7 @@
 using DAL;
 using DAL.Services;
 using Microsoft.EntityFrameworkCore;
+
 namespace TrainLink
 {
     public class Program
@@ -8,13 +9,13 @@ namespace TrainLink
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            //Database
+
+            // Database
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection")));
+                    builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            //Service 
-
+            // Services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUniversityService, UniversityService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
@@ -29,29 +30,37 @@ namespace TrainLink
             builder.Services.AddScoped<IFinalReportAppendixService, FinalReportAppendixService>();
             builder.Services.AddScoped<IFinalReportTaskService, FinalReportTaskService>();
 
-            // Add services to the container.
+            // MVC
             builder.Services.AddControllersWithViews();
+
+            // Session
+            builder.Services.AddSession();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
+
+            // Session
+            app.UseSession();
 
             app.UseAuthorization();
 
             app.MapStaticAssets();
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Report}/{action=CreateWeekly}/{id?}")
-                .WithStaticAssets();
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 
             app.Run();
         }

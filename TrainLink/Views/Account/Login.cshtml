@@ -1,5 +1,9 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
 <div class="container vh-100 d-flex justify-content-center align-items-center">
+
     <div class="card shadow-lg border-0 rounded-4 p-4"
          style="max-width:450px; width:100%;">
 
@@ -20,10 +24,13 @@
                 </div>
             }
 
-            <form action="~/Account/Login" method="post">
-                @Html.AntiForgeryToken()
+            <form asp-controller="Account"
+                  asp-action="Login"
+                  method="post">
 
+                @Html.AntiForgeryToken()
                 <div class="mb-3">
+
                     <label class="form-label fw-semibold">
                         Email
                     </label>
@@ -32,10 +39,11 @@
                            type="email"
                            class="form-control form-control-lg"
                            placeholder="Enter Email"
-                           required>
+                           required />
                 </div>
 
                 <div class="mb-4">
+
                     <label class="form-label fw-semibold">
                         Password
                     </label>
@@ -44,7 +52,8 @@
                            type="password"
                            class="form-control form-control-lg"
                            placeholder="Enter Password"
-                           required>
+                           required />
+
                 </div>
 
                 <button type="submit"
@@ -55,5 +64,7 @@
             </form>
 
         </div>
+
     </div>
+
 </div>
