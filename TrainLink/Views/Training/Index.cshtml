@@ -3,115 +3,411 @@
     ViewData["Title"] = "Training";
 }
 @using Microsoft.AspNetCore.Http
-
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid py-4 px-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
         <div>
-            <h2 class="fw-bold mb-1">Training</h2>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="bg-primary rounded-3 p-2 text-white">
+                    <i class="bi bi-mortarboard-fill fs-5"></i>
+                </div>
+                <span class="text-primary fw-semibold">
+                    TRAINING MANAGEMENT
+                </span>
+            </div>
+            <h2 class="fw-bold mb-1">
+                Training Records
+            </h2>
             <p class="text-muted mb-0">
-                Manage student training records
+                Manage student training assignments and progress.
             </p>
         </div>
         @if (Context.Session.GetString("Role") == "Admin")
         {
             <a asp-action="Create"
-               class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i>
-                Create Training
+               class="btn btn-primary rounded-3 px-4 py-2 mt-3 mt-md-0 shadow-sm">
+                <i class="bi bi-plus-lg me-2"></i>
+                New Training
             </a>
         }
-        
     </div>
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Training ID</th>
-                            <th>Student </th>
-                            <th>Doctor </th>
-                            <th>Company </th>
-                            <th>Supervisor </th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Status</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            foreach (var training in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @training.TrainingId
-                                    </td>
-                                    <td>
-                                        @training.Student?.Name
-                                    </td>
-                                    <td>
-                                        @training.Doctor?.Name
-                                    </td>
-                                    <td>
-                                        @training.Company?.Name
-                                    </td>
-                                    <td>
-                                        @training.CompanySupervisor?.Name
-                                    </td>
-                                    <td>
-                                        @training.DateFrom.ToString("dd/MM/yyyy")
-                                    </td>
-                                    <td>
-                                        @training.DateTo.ToString("dd/MM/yyyy")
-                                    </td>
-                                    <td>
-                                        @training.Status
-                                    </td>
-                                    <td class="text-center">
-                                        
-                                        @if (Context.Session.GetString("Role") == "Admin")
-                                        {
-                                            <a asp-action="Details"
-                                               asp-route-id="@training.TrainingId"
-                                               class="btn btn-sm btn-outline-info">
-                                                Details
-                                            </a>
-                                            <a asp-action="Edit"
-                                               asp-route-id="@training.TrainingId"
-                                               class="btn btn-sm btn-outline-primary">
-                                                Edit
-                                            </a>
-                                            <form asp-action="Delete"
-                                                  asp-route-id="@training.TrainingId"
-                                                  method="post"
-                                                  class="d-inline">
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this training?');">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        }
-                                        
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="9"
-                                    class="text-center py-5 text-muted">
-                                    No training records found.
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">
+                                Total Training
+                            </p>
+                            <h3 class="fw-bold mb-0">
+                                @(Model?.Count() ?? 0)
+                            </h3>
+                        </div>
+                        <div class="bg-primary-subtle text-primary rounded-4 p-3">
+                            <i class="bi bi-journal-text fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">
+                                Active Training
+                            </p>
+                            <h3 class="fw-bold mb-0">
+                                @(Model?.Count(x => x.Status == "Active") ?? 0)
+                            </h3>
+                        </div>
+                        <div class="bg-success-subtle text-success rounded-4 p-3">
+                            <i class="bi bi-activity fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-2">
+                                Completed
+                            </p>
+                            <h3 class="fw-bold mb-0">
+                                @(Model?.Count(x => x.Status == "Completed") ?? 0)
+                            </h3>
+                        </div>
+                        <div class="bg-info-subtle text-info rounded-4 p-3">
+                            <i class="bi bi-check2-circle fs-4"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white border-0 p-4">
+            <div class="d-flex flex-column flex-md-row
+                justify-content-between align-items-md-center gap-3">
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        All Trainings
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        Overview of all assigned student trainings
+                    </p>
+                </div>
+                <div class="input-group" style="max-width:280px;">
+                    <span class="input-group-text bg-light border-0">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text"
+                           id="trainingSearch"
+                           class="form-control bg-light border-0"
+                           placeholder="Search training..." />
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0"
+                   id="trainingTable">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="ps-4 py-3 text-muted small">
+                            ID
+                        </th>
+                        <th class="py-3 text-muted small">
+                            STUDENT
+                        </th>
+                        <th class="py-3 text-muted small">
+                            DOCTOR
+                        </th>
+                        <th class="py-3 text-muted small">
+                            COMPANY
+                        </th>
+                        <th class="py-3 text-muted small">
+                            SUPERVISOR
+                        </th>
+                        <th class="py-3 text-muted small">
+                            PERIOD
+                        </th>
+                        <th class="py-3 text-muted small">
+                            STATUS
+                        </th>
+                        @if (Context.Session.GetString("Role") == "Admin")
+                        {
+                            <th class="py-3 text-muted small text-center">
+                                ACTIONS
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var training in Model)
+                        {
+                            <tr class="training-row">    
+                                <td class="ps-4">
+                                    <span class="fw-bold text-primary">
+                                        #@training.TrainingId
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar">
+                                            @training.Student?.Name?.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">
+                                                @training.Student?.Name
+                                            </div>
+                                            <small class="text-muted">
+                                                Student
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium">
+                                        @training.Doctor?.Name
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="fw-medium">
+                                            @training.Company?.Name
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    @training.CompanySupervisor?.Name
+                                </td>
+                                <td>
+                                    <div class="small">
+                                        <div class="fw-semibold">
+                                            @training.DateFrom.ToString("dd MMM yyyy")
+                                        </div>
+                                        <div class="text-muted">
+                                            to @training.DateTo.ToString("dd MMM yyyy")
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (training.Status == "Active")
+                                    {
+                                        <span class="status active">
+                                            <span></span>
+                                            Active
+                                        </span>
+                                    }
+                                    else if (training.Status == "Completed")
+                                    {
+                                        <span class="status completed">
+                                            <span></span>
+                                            Completed
+                                        </span>
+                                    }
+                                    else if (training.Status == "Pending")
+                                    {
+                                        <span class="status pending">
+                                            <span></span>
+                                            Pending
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status other">
+                                            <span></span>
+                                            @training.Status
+                                        </span>
+                                    }
+
+                                </td>
+                                @if (Context.Session.GetString("Role") == "Admin")
+                                {
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-light rounded-3"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                                                <li>
+                                                    <a asp-action="Details"
+                                                       asp-route-id="@training.TrainingId"
+                                                       class="dropdown-item">
+                                                        <i class="bi bi-eye me-2 text-info"></i>
+                                                        View Details
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-action="Edit"
+                                                       asp-route-id="@training.TrainingId"
+                                                       class="dropdown-item">
+                                                        <i class="bi bi-pencil me-2 text-primary"></i>
+                                                        Edit Training
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li>
+                                                    <form asp-action="Delete"
+                                                          asp-route-id="@training.TrainingId"
+                                                          method="post">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit"
+                                                                class="dropdown-item text-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this training?');">
+                                                            <i class="bi bi-trash me-2"></i>
+                                                            Delete Training
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8"
+                                class="text-center py-5">
+                                <div class="py-4">
+                                    <div class="empty-icon mb-3">
+                                        <i class="bi bi-journal-x"></i>
+                                    </div>
+                                    <h5 class="fw-bold">
+                                        No Training Records
+                                    </h5>
+                                    <p class="text-muted mb-0">
+                                        There are no training records available yet.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+<style>
+    body {
+        background-color: #f6f8fb;
+    }
+    .card {
+        transition: all 0.2s ease;
+    }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+    .training-row {
+        transition: background-color 0.2s ease;
+    }
+        .training-row:hover {
+            background-color: #f8faff;
+        }
+    .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #e8f0ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 17px;
+    }
+    .company-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+    }
+    .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+        .status span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status.active {
+            background: #e8f8ef;
+            color: #198754;
+        }
+            .status.active span {
+                background: #198754;
+            }
+        .status.completed {
+            background: #e8f0ff;
+            color: #0d6efd;
+        }
+            .status.completed span {
+                background: #0d6efd;
+            }
+        .status.pending {
+            background: #fff4df;
+            color: #d99000;
+        }
+            .status.pending span {
+                background: #d99000;
+            }
+        .status.other {
+            background: #f0f1f3;
+            color: #6c757d;
+        }
+            .status.other span {
+                background: #6c757d;
+            }
+    .empty-icon {
+        width: 65px;
+        height: 65px;
+        margin: auto;
+        border-radius: 18px;
+        background: #eef2f7;
+        color: #8b95a5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+    .dropdown-item {
+        padding: 10px 16px;
+    }
+        .dropdown-item:hover {
+            background-color: #f5f7fa;
+        }
+</style>
+<script>
+    document.getElementById("trainingSearch")?.addEventListener("keyup", function() {
+        let value = this.value.toLowerCase();
+        document.querySelectorAll(".training-row").forEach(function(row) {
+            row.style.display =
+                row.innerText.toLowerCase().includes(value)
+                    ? "" : "none";
+        });
+    });
+</script>

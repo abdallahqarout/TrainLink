@@ -1,0 +1,715 @@
+﻿```cshtml
+@model TrainLink.ViewModels.CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="container-fluid py-4 px-lg-5">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex flex-column flex-md-row
+                justify-content-between align-items-md-center
+                gap-3 mb-4">
+
+        <div>
+
+            <span class="badge bg-primary-subtle text-primary
+                         px-3 py-2 rounded-pill mb-2">
+                User Management
+            </span>
+
+            <h2 class="fw-bold mb-1">
+                Create New User
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Create a new account and assign the appropriate role.
+            </p>
+
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-dark rounded-3 px-4 py-2">
+
+            ← Back to Users
+
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="row g-4">
+
+
+        <!-- LEFT SIDEBAR -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4 p-xl-5">
+
+
+                    <!-- ICON -->
+                    <div class="mb-4">
+
+                        <div class="bg-primary text-white
+                                    rounded-4
+                                    d-inline-flex
+                                    align-items-center
+                                    justify-content-center"
+                             style="width:70px;height:70px;">
+
+                            <span class="fs-2 fw-bold">
+                                U
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3 class="fw-bold mb-2">
+                        User Account
+                    </h3>
+
+                    <p class="text-secondary">
+                        Enter the user's basic information and select
+                        a role to display the required fields.
+                    </p>
+
+
+                    <!-- STEPS -->
+
+                    <div class="mt-5">
+
+
+                        <!-- STEP 1 -->
+
+                        <div class="d-flex align-items-start mb-4">
+
+                            <div class="rounded-circle
+                                        bg-primary text-white
+                                        d-flex
+                                        align-items-center
+                                        justify-content-center
+                                        flex-shrink-0"
+                                 style="width:42px;height:42px;">
+
+                                1
+
+                            </div>
+
+                            <div class="ms-3">
+
+                                <h6 class="fw-bold mb-1">
+                                    Basic Information
+                                </h6>
+
+                                <small class="text-secondary">
+                                    Name and email address
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 2 -->
+
+                        <div class="d-flex align-items-start mb-4">
+
+                            <div class="rounded-circle
+                                        bg-primary-subtle
+                                        text-primary
+                                        d-flex
+                                        align-items-center
+                                        justify-content-center
+                                        flex-shrink-0"
+                                 style="width:42px;height:42px;">
+
+                                2
+
+                            </div>
+
+                            <div class="ms-3">
+
+                                <h6 class="fw-bold mb-1">
+                                    User Role
+                                </h6>
+
+                                <small class="text-secondary">
+                                    Student, Doctor, Supervisor or Admin
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 3 -->
+
+                        <div class="d-flex align-items-start mb-4">
+
+                            <div class="rounded-circle
+                                        bg-primary-subtle
+                                        text-primary
+                                        d-flex
+                                        align-items-center
+                                        justify-content-center
+                                        flex-shrink-0"
+                                 style="width:42px;height:42px;">
+
+                                3
+
+                            </div>
+
+                            <div class="ms-3">
+
+                                <h6 class="fw-bold mb-1">
+                                    Additional Information
+                                </h6>
+
+                                <small class="text-secondary">
+                                    Information depends on selected role
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 4 -->
+
+                        <div class="d-flex align-items-start">
+
+                            <div class="rounded-circle
+                                        bg-primary-subtle
+                                        text-primary
+                                        d-flex
+                                        align-items-center
+                                        justify-content-center
+                                        flex-shrink-0"
+                                 style="width:42px;height:42px;">
+
+                                4
+
+                            </div>
+
+                            <div class="ms-3">
+
+                                <h6 class="fw-bold mb-1">
+                                    Create Account
+                                </h6>
+
+                                <small class="text-secondary">
+                                    Save the new user
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INFO -->
+
+                    <div class="alert alert-primary
+                                border-0 rounded-4 mt-5 mb-0">
+
+                        <div class="fw-bold mb-1">
+                            Role Information
+                        </div>
+
+                        <small>
+                            Select a role to automatically display
+                            the information required for that user.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT FORM -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4 p-xl-5">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <!-- VALIDATION -->
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger rounded-3">
+                        </div>
+
+
+                        <!-- BASIC INFORMATION -->
+
+                        <div class="mb-5">
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <div class="bg-primary-subtle
+                                            text-primary
+                                            rounded-3
+                                            p-3 me-3">
+
+                                    <span class="fw-bold">
+                                        01
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <h5 class="fw-bold mb-0">
+                                        Basic Information
+                                    </h5>
+
+                                    <small class="text-secondary">
+                                        Enter the user's personal information
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row g-4">
+
+
+                                <!-- NAME -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Name"
+                                           class="form-label fw-semibold">
+
+                                        Full Name
+
+                                    </label>
+
+                                    <input asp-for="Name"
+                                           class="form-control form-control-lg rounded-3"
+                                           placeholder="Enter full name" />
+
+                                    <span asp-validation-for="Name"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Email"
+                                           class="form-label fw-semibold">
+
+                                        Email Address
+
+                                    </label>
+
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control form-control-lg rounded-3"
+                                           placeholder="example@email.com" />
+
+                                    <span asp-validation-for="Email"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ROLE -->
+
+                        <div class="border-top pt-5 mb-5">
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <div class="bg-success-subtle
+                                            text-success
+                                            rounded-3
+                                            p-3 me-3">
+
+                                    <span class="fw-bold">
+                                        02
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <h5 class="fw-bold mb-0">
+                                        User Role
+                                    </h5>
+
+                                    <small class="text-secondary">
+                                        Select the user's system role
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <label asp-for="Role"
+                                   class="form-label fw-semibold">
+
+                                Role
+
+                            </label>
+
+                            <select asp-for="Role"
+                                    class="form-select form-select-lg rounded-3"
+                                    id="role">
+
+                                <option value="">
+                                    Select User Role
+                                </option>
+
+                                <option value="Student">
+                                    Student
+                                </option>
+
+                                <option value="Doctor">
+                                    Doctor
+                                </option>
+
+                                <option value="CompanySupervisor">
+                                    Company Supervisor
+                                </option>
+
+                                <option value="Admin">
+                                    Administrator
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Role"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ADDITIONAL INFORMATION -->
+
+                        <div class="border-top pt-5">
+
+                            <div class="d-flex align-items-center mb-4">
+
+                                <div class="bg-warning-subtle
+                                            text-warning
+                                            rounded-3
+                                            p-3 me-3">
+
+                                    <span class="fw-bold">
+                                        03
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <h5 class="fw-bold mb-0">
+                                        Additional Information
+                                    </h5>
+
+                                    <small class="text-secondary">
+                                        Fields change according to the selected role
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row g-4">
+
+
+                                <!-- UNIVERSITY -->
+
+                                <div class="col-md-6"
+                                     id="universitySection"
+                                     style="display:none;">
+
+                                    <label asp-for="UniversityId"
+                                           class="form-label fw-semibold">
+
+                                        University
+
+                                    </label>
+
+                                    <select asp-for="UniversityId"
+                                            asp-items="ViewBag.Universities"
+                                            class="form-select form-select-lg rounded-3"
+                                            id="university">
+
+                                        <option value="">
+                                            Select University
+                                        </option>
+
+                                    </select>
+
+                                    <span asp-validation-for="UniversityId"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- STUDENT NUMBER -->
+
+                                <div class="col-md-6"
+                                     id="studentNumberSection"
+                                     style="display:none;">
+
+                                    <label asp-for="StudentNumber"
+                                           class="form-label fw-semibold">
+
+                                        Student Number
+
+                                    </label>
+
+                                    <input asp-for="StudentNumber"
+                                           class="form-control form-control-lg rounded-3"
+                                           id="studentNumber"
+                                           placeholder="Enter student number" />
+
+                                    <span asp-validation-for="StudentNumber"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- MAJOR -->
+
+                                <div class="col-md-6"
+                                     id="majorSection"
+                                     style="display:none;">
+
+                                    <label asp-for="Major"
+                                           class="form-label fw-semibold">
+
+                                        Major
+
+                                    </label>
+
+                                    <input asp-for="Major"
+                                           class="form-control form-control-lg rounded-3"
+                                           id="major"
+                                           placeholder="Enter major" />
+
+                                    <span asp-validation-for="Major"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- COMPANY -->
+
+                                <div class="col-md-6"
+                                     id="companySection"
+                                     style="display:none;">
+
+                                    <label asp-for="CompanyId"
+                                           class="form-label fw-semibold">
+
+                                        Company
+
+                                    </label>
+
+                                    <select asp-for="CompanyId"
+                                            asp-items="ViewBag.Companies"
+                                            class="form-select form-select-lg rounded-3"
+                                            id="company">
+
+                                        <option value="">
+                                            Select Company
+                                        </option>
+
+                                    </select>
+
+                                    <span asp-validation-for="CompanyId"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="border-top mt-5 pt-4">
+
+                            <div class="d-flex
+                                        flex-column
+                                        flex-sm-row
+                                        justify-content-end
+                                        gap-2">
+
+                                <a asp-action="Index"
+                                   class="btn btn-light border
+                                          rounded-3 px-4 py-2">
+
+                                    Cancel
+
+                                </a>
+
+                                <button type="submit"
+                                        class="btn btn-primary
+                                               rounded-3 px-5 py-2
+                                               fw-semibold">
+
+                                    Create User
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const roleSelect =
+            document.getElementById("role");
+
+        const universitySection =
+            document.getElementById("universitySection");
+
+        const studentNumberSection =
+            document.getElementById("studentNumberSection");
+
+        const majorSection =
+            document.getElementById("majorSection");
+
+        const companySection =
+            document.getElementById("companySection");
+
+        const university =
+            document.getElementById("university");
+
+        const studentNumber =
+            document.getElementById("studentNumber");
+
+        const major =
+            document.getElementById("major");
+
+        const company =
+            document.getElementById("company");
+
+
+        function updateFields() {
+
+            const role = roleSelect.value;
+
+
+            // Hide all sections
+
+            universitySection.style.display = "none";
+            studentNumberSection.style.display = "none";
+            majorSection.style.display = "none";
+            companySection.style.display = "none";
+
+
+            // Disable all optional fields
+
+            university.disabled = true;
+            studentNumber.disabled = true;
+            major.disabled = true;
+            company.disabled = true;
+
+
+            // STUDENT
+
+            if (role === "Student") {
+
+                universitySection.style.display = "block";
+                studentNumberSection.style.display = "block";
+                majorSection.style.display = "block";
+
+                university.disabled = false;
+                studentNumber.disabled = false;
+                major.disabled = false;
+
+            }
+
+
+            // DOCTOR
+
+            else if (role === "Doctor") {
+
+                universitySection.style.display = "block";
+
+                university.disabled = false;
+
+            }
+
+
+            // COMPANY SUPERVISOR
+
+            else if (role === "CompanySupervisor") {
+
+                companySection.style.display = "block";
+
+                company.disabled = false;
+
+            }
+
+        }
+
+
+        roleSelect.addEventListener(
+            "change",
+            updateFields
+        );
+
+
+        updateFields();
+
+    </script>
+}
+```

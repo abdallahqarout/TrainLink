@@ -959,23 +959,23 @@ $.validator.addMethod( "mobileNL", function( value, element ) {
 	return this.optional( element ) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)6((\s|\s?\-\s?)?[0-9]){8}$/.test( value );
 }, "Please specify a valid mobile number." );
 
-$.validator.addMethod( "mobileRU", function( phone_number, element ) {
-	var ruPhone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
+$.validator.addMethod( "mobileRU", function( Phone_number, element ) {
+	var ruPhone_number = Phone_number.replace( /\(|\)|\s+|-/g, "" );
 	return this.optional( element ) || ruPhone_number.length > 9 && /^((\+7|7|8)+([0-9]){10})$/.test( ruPhone_number );
 }, "Please specify a valid mobile number." );
 
-/* For UK phone functions, do the following server side processing:
+/* For UK Phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
  * Extract $1 and set $prefix to '+44<space>' if $1 is '44', otherwise set $prefix to '0'
  * Extract $2 and remove hyphens, spaces and parentheses. Phone number is combined $prefix and $2.
- * A number of very detailed GB telephone number RegEx patterns can also be found at:
- * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
+ * A number of very detailed GB telePhone number RegEx patterns can also be found at:
+ * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_TelePhone_Numbers
  */
-$.validator.addMethod( "mobileUK", function( phone_number, element ) {
-	phone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
-	return this.optional( element ) || phone_number.length > 9 &&
-		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?|0)7(?:[1345789]\d{2}|624)\s?\d{3}\s?\d{3})$/ );
+$.validator.addMethod( "mobileUK", function( Phone_number, element ) {
+	Phone_number = Phone_number.replace( /\(|\)|\s+|-/g, "" );
+	return this.optional( element ) || Phone_number.length > 9 &&
+		Phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?|0)7(?:[1345789]\d{2}|624)\s?\d{3}\s?\d{3})$/ );
 }, "Please specify a valid mobile number." );
 
 $.validator.addMethod( "netmask", function( value, element ) {
@@ -1166,16 +1166,16 @@ $.validator.addMethod( "pattern", function( value, element, param ) {
 }, "Invalid format." );
 
 /**
- * Dutch phone numbers have 10 digits (or 11 and start with +31).
+ * Dutch Phone numbers have 10 digits (or 11 and start with +31).
  */
-$.validator.addMethod( "phoneNL", function( value, element ) {
+$.validator.addMethod( "PhoneNL", function( value, element ) {
 	return this.optional( element ) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9]){8}$/.test( value );
-}, "Please specify a valid phone number." );
+}, "Please specify a valid Phone number." );
 
 /**
- * Polish telephone numbers have 9 digits.
+ * Polish telePhone numbers have 9 digits.
  *
- * Mobile phone numbers starts with following digits:
+ * Mobile Phone numbers starts with following digits:
  * 45, 50, 51, 53, 57, 60, 66, 69, 72, 73, 78, 79, 88.
  *
  * Fixed-line numbers starts with area codes:
@@ -1186,48 +1186,48 @@ $.validator.addMethod( "phoneNL", function( value, element ) {
  *
  * Ministry of National Defence numbers and VoIP numbers starts with 26 and 39.
  *
- * Excludes intelligent networks (premium rate, shared cost, free phone numbers).
+ * Excludes intelligent networks (premium rate, shared cost, free Phone numbers).
  *
  * Poland National Numbering Plan http://www.itu.int/oth/T02020000A8/en
  */
-$.validator.addMethod( "phonePL", function( phone_number, element ) {
-	phone_number = phone_number.replace( /\s+/g, "" );
+$.validator.addMethod( "PhonePL", function( Phone_number, element ) {
+	Phone_number = Phone_number.replace( /\s+/g, "" );
 	var regexp = /^(?:(?:(?:\+|00)?48)|(?:\(\+?48\)))?(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}$/;
-	return this.optional( element ) || regexp.test( phone_number );
-}, "Please specify a valid phone number." );
+	return this.optional( element ) || regexp.test( Phone_number );
+}, "Please specify a valid Phone number." );
 
-/* For UK phone functions, do the following server side processing:
+/* For UK Phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
  * Extract $1 and set $prefix to '+44<space>' if $1 is '44', otherwise set $prefix to '0'
  * Extract $2 and remove hyphens, spaces and parentheses. Phone number is combined $prefix and $2.
- * A number of very detailed GB telephone number RegEx patterns can also be found at:
- * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
+ * A number of very detailed GB telePhone number RegEx patterns can also be found at:
+ * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_TelePhone_Numbers
  */
 
 // Matches UK landline + mobile, accepting only 01-3 for landline or 07 for mobile to exclude many premium numbers
-$.validator.addMethod( "phonesUK", function( phone_number, element ) {
-	phone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
-	return this.optional( element ) || phone_number.length > 9 &&
-		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?|0)(?:1\d{8,9}|[23]\d{9}|7(?:[1345789]\d{8}|624\d{6})))$/ );
-}, "Please specify a valid uk phone number." );
+$.validator.addMethod( "PhonesUK", function( Phone_number, element ) {
+	Phone_number = Phone_number.replace( /\(|\)|\s+|-/g, "" );
+	return this.optional( element ) || Phone_number.length > 9 &&
+		Phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?|0)(?:1\d{8,9}|[23]\d{9}|7(?:[1345789]\d{8}|624\d{6})))$/ );
+}, "Please specify a valid uk Phone number." );
 
-/* For UK phone functions, do the following server side processing:
+/* For UK Phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
  * Extract $1 and set $prefix to '+44<space>' if $1 is '44', otherwise set $prefix to '0'
  * Extract $2 and remove hyphens, spaces and parentheses. Phone number is combined $prefix and $2.
- * A number of very detailed GB telephone number RegEx patterns can also be found at:
- * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
+ * A number of very detailed GB telePhone number RegEx patterns can also be found at:
+ * http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_TelePhone_Numbers
  */
-$.validator.addMethod( "phoneUK", function( phone_number, element ) {
-	phone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
-	return this.optional( element ) || phone_number.length > 9 &&
-		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?)|(?:\(?0))(?:\d{2}\)?\s?\d{4}\s?\d{4}|\d{3}\)?\s?\d{3}\s?\d{3,4}|\d{4}\)?\s?(?:\d{5}|\d{3}\s?\d{3})|\d{5}\)?\s?\d{4,5})$/ );
-}, "Please specify a valid phone number." );
+$.validator.addMethod( "PhoneUK", function( Phone_number, element ) {
+	Phone_number = Phone_number.replace( /\(|\)|\s+|-/g, "" );
+	return this.optional( element ) || Phone_number.length > 9 &&
+		Phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?)|(?:\(?0))(?:\d{2}\)?\s?\d{4}\s?\d{4}|\d{3}\)?\s?\d{3}\s?\d{3,4}|\d{4}\)?\s?(?:\d{5}|\d{3}\s?\d{3})|\d{5}\)?\s?\d{4,5})$/ );
+}, "Please specify a valid Phone number." );
 
 /**
- * Matches US phone number format
+ * Matches US Phone number format
  *
  * where the area code may not start with 1 and the prefix may not start with 1
  * allows '-' or ' ' as a separator and allows parens around area code
@@ -1242,11 +1242,11 @@ $.validator.addMethod( "phoneUK", function( phone_number, element ) {
  * and not
  * 212 123 4567
  */
-$.validator.addMethod( "phoneUS", function( phone_number, element ) {
-	phone_number = phone_number.replace( /\s+/g, "" );
-	return this.optional( element ) || phone_number.length > 9 &&
-		phone_number.match( /^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]\d{2}-?\d{4}$/ );
-}, "Please specify a valid phone number." );
+$.validator.addMethod( "PhoneUS", function( Phone_number, element ) {
+	Phone_number = Phone_number.replace( /\s+/g, "" );
+	return this.optional( element ) || Phone_number.length > 9 &&
+		Phone_number.match( /^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]\d{2}-?\d{4}$/ );
+}, "Please specify a valid Phone number." );
 
 /*
 * Valida CEPs do brasileiros:
