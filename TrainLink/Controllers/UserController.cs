@@ -82,6 +82,7 @@ namespace TrainLink.Controllers
                     Email = user.Email,
 
                     Role = user.Role,
+                    Phone = user.Phone,
 
                     UniversityName = universityId.HasValue
                         ? universities
@@ -242,7 +243,8 @@ namespace TrainLink.Controllers
                 Name = model.Name,
                 Email = model.Email,
                 Password = "",
-                Role = model.Role
+                Role = model.Role,
+                Phone =model.Phone
             };
 
             await _userService.Add(user);
@@ -434,6 +436,75 @@ namespace TrainLink.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public IActionResult Details(int id)
+        {
+            var user = _userService
+                .GetById(id)
+                .FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var student = _studentService
+                .GetByUserId(id)
+                .FirstOrDefault();
+
+            var doctor = _doctorService
+                .GetByUserId(id)
+                .FirstOrDefault();
+
+            var supervisor = _companySupervisorService
+                .GetByUserId(id)
+                .FirstOrDefault();
+
+            string universityName = null;
+            string companyName = null;
+
+            if (student != null)
+            {
+                universityName = _universityService
+                    .GetById(student.UniversityId)
+                    .FirstOrDefault()
+                    ?.Name;
+            }
+            else if (doctor != null)
+            {
+                universityName = _universityService
+                    .GetById(doctor.UniversityId)
+                    .FirstOrDefault()
+                    ?.Name;
+            }
+
+            if (supervisor != null)
+            {
+                companyName = _companyService
+                    .GetById(supervisor.CompanyId)
+                    .FirstOrDefault()
+                    ?.Name;
+            }
+
+            var model = new UserDetailsViewModel
+            {
+                UserId = user.UserId,
+                Name = user.Name,
+                Email = user.Email,
+                Phone = user.Phone,
+                Role = user.Role,
+
+                UniversityName = universityName,
+
+                StudentNumber = student?.StudentNumber,
+
+                Major = student?.Major,
+
+                CompanyName = companyName
+            };
+
+            return View(model);
+        }
 
 
         [HttpPost]

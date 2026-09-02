@@ -1,6 +1,6 @@
 ﻿namespace TrainLink.ViewModels
 {
-    public class UserListViewModel
+    public class UserDetailsViewModel
     {
         public int UserId { get; set; }
 
@@ -8,15 +8,19 @@
 
         public string Email { get; set; }
 
+        public string Phone { get; set; }
+
         public string Role { get; set; }
 
+        // Student / Doctor
         public string UniversityName { get; set; }
 
-        public string CompanyName { get; set; }
-
+        // Student
         public string StudentNumber { get; set; }
 
         public string Major { get; set; }
-        public string Phone { get; set; }
+
+        // Company Supervisor
+        public string CompanyName { get; set; }
     }
 }

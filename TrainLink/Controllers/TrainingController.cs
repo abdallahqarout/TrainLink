@@ -2,6 +2,7 @@
 using DAL.Services;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace TrainLink.Controllers
 {
@@ -31,13 +32,14 @@ namespace TrainLink.Controllers
 
         public ActionResult Index()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            var role = HttpContext.Session.GetString("Role");
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var role = User.FindFirstValue(ClaimTypes.Role);
 
-            if (userId == null || string.IsNullOrEmpty(role))
+            if (string.IsNullOrEmpty(userIdString) || string.IsNullOrEmpty(role))
             {
                 return RedirectToAction("Login", "Account");
             }
+            var userId = int.Parse(userIdString);
 
             IQueryable<Training> trainings;
 
@@ -45,57 +47,26 @@ namespace TrainLink.Controllers
             {
                 case "Doctor":
 
-                    var doctor = _doctorService
-                        .GetByUserId(userId.Value)
-                        .FirstOrDefault();
-
+                    var doctor = _doctorService.GetByUserId(userId).FirstOrDefault();
                     if (doctor == null)
                         return Unauthorized();
-
-                    trainings = _trainingService
-                        .GetByDoctorId(doctor.DoctorId);
-
+                    trainings = _trainingService.GetByDoctorId(doctor.DoctorId);
                     break;
-
-
                 case "Student":
-
-                    var student = _studentService
-                        .GetByUserId(userId.Value)
-                        .FirstOrDefault();
-
+                    var student = _studentService.GetByUserId(userId).FirstOrDefault();
                     if (student == null)
                         return Unauthorized();
-
-                    trainings = _trainingService
-                        .GetByStudentId(student.StudentId);
-
+                    trainings = _trainingService.GetByStudentId(student.StudentId);
                     break;
-
-
                 case "CompanySupervisor":
-
-                    var supervisor = _companySupervisorService
-                        .GetByUserId(userId.Value)
-                        .FirstOrDefault();
-
+                    var supervisor = _companySupervisorService.GetByUserId(userId).FirstOrDefault();
                     if (supervisor == null)
                         return Unauthorized();
-
-                    trainings = _trainingService
-                        .GetByCompanySupervisorId(
-                            supervisor.CompanySupervisorId);
-
+                    trainings = _trainingService.GetByCompanySupervisorId(supervisor.CompanySupervisorId);
                     break;
-
-
                 case "Admin":
-
                     trainings = _trainingService.GetAll();
-
                     break;
-
-
                 default:
                     return Unauthorized();
             }
@@ -176,25 +147,17 @@ namespace TrainLink.Controllers
 
         private void LoadDropdowns()
         {
-            ViewBag.Students = new SelectList(
-                _studentService.GetAll(),
-                "StudentId",
-                "Name"
+            ViewBag.Students = new SelectList(_studentService.GetAll(),
+                "StudentId","Name"
             );
-            ViewBag.Doctors = new SelectList(
-                _doctorService.GetAll(),
-                "DoctorId",
-                "Name"
+            ViewBag.Doctors = new SelectList(_doctorService.GetAll(),
+                "DoctorId","Name"
             );
-            ViewBag.Companies = new SelectList(
-                _companyService.GetAll(),
-                "CompanyId",
-                "Name"
+            ViewBag.Companies = new SelectList(_companyService.GetAll(),
+                "CompanyId","Name"
             );
-            ViewBag.CompanySupervisors = new SelectList(
-                _companySupervisorService.GetAll(),
-                "CompanySupervisorId",
-                "Name"
+            ViewBag.CompanySupervisors = new SelectList(_companySupervisorService.GetAll()
+                ,"CompanySupervisorId","Name"
             );
         }
     }

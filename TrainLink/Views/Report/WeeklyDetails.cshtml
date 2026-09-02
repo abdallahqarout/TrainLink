@@ -2,111 +2,496 @@
 
 @{
     ViewData["Title"] = "Weekly Report Details";
+    var role = Context.Session.GetString("Role");
 }
 
 <div class="container py-5">
 
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
 
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">
-                Weekly Report - Week @Model.WeekNumber
-            </h3>
+        <!-- HEADER -->
+
+        <div class="card-header bg-primary text-white p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h3 class="mb-1 fw-bold">
+                        Weekly Report
+                    </h3>
+
+                    <p class="mb-0 opacity-75">
+                        Week @Model.WeekNumber
+                    </p>
+                </div>
+
+                @if (Model.Status == "PendingSupervisor")
+                {
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        Pending Supervisor
+                    </span>
+                }
+                else if (Model.Status == "PendingDoctor")
+                {
+                    <span class="badge bg-info text-dark px-3 py-2">
+                        Pending Doctor
+                    </span>
+                }
+                else if (Model.Status == "Approved")
+                {
+                    <span class="badge bg-success px-3 py-2">
+                        Approved
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger px-3 py-2">
+                        @Model.Status
+                    </span>
+                }
+
+            </div>
+
         </div>
 
-        <div class="card-body p-4">
+
+        <div class="card-body p-4 p-lg-5">
+
+            <!-- BASIC INFORMATION -->
 
             <div class="row">
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
-                        Training ID
+                <div class="col-md-6 mb-4">
+
+                    <label class="fw-semibold mb-2">
+                        Student
                     </label>
+
                     <div class="form-control bg-light">
-                        @Model.TrainingId
+                        @(Model.Training?.Student?.Name ?? "Unknown Student")
                     </div>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="fw-semibold mb-2">
                         Week Number
                     </label>
+
                     <div class="form-control bg-light">
                         @Model.WeekNumber
                     </div>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="fw-semibold mb-2">
                         Date From
                     </label>
+
                     <div class="form-control bg-light">
                         @Model.DateFrom.ToString("dd/MM/yyyy")
                     </div>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="fw-semibold mb-2">
                         Date To
                     </label>
+
                     <div class="form-control bg-light">
                         @Model.DateTo.ToString("dd/MM/yyyy")
                     </div>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="fw-semibold mb-2">
                         Hours Worked
                     </label>
+
                     <div class="form-control bg-light">
                         @Model.HoursWorked
                     </div>
-                </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="fw-semibold">
-                        Status
-                    </label>
-                    <div class="form-control bg-light">
-                        @Model.Status
-                    </div>
                 </div>
 
             </div>
 
+
+            <!-- TASKS -->
+
             <div class="mb-4">
-                <label class="fw-semibold">
+
+                <label class="fw-semibold mb-2">
                     Completed Tasks and Activities
                 </label>
 
                 <div class="form-control bg-light"
-                     style="min-height:120px; white-space:pre-line;">
+                     style="min-height:140px; white-space:pre-line;">
+
                     @Model.Tasks
+
                 </div>
+
             </div>
 
+
+            <!-- CHALLENGES -->
+
             <div class="mb-4">
-                <label class="fw-semibold">
+
+                <label class="fw-semibold mb-2">
                     Challenges
                 </label>
 
                 <div class="form-control bg-light"
                      style="min-height:120px; white-space:pre-line;">
-                    @Model.Challenges
+
+                    @(string.IsNullOrWhiteSpace(Model.Challenges)
+                        ? "No challenges reported."
+                        : Model.Challenges)
+
                 </div>
+
             </div>
 
-            <div class="d-flex gap-2">
-                <a asp-action="EditWeekly"
-                   asp-route-id="@Model.WeeklyReportId"
-                   class="btn btn-primary">
-                    Edit
-                </a>
-                <a asp-action="Weekly"
-                   class="btn btn-secondary">
-                    Back
-                </a>
+            @if (ViewBag.Reviews != null)
+            {
+                var reviews = (IEnumerable<DAL.Entities.ReportReview>)ViewBag.Reviews;
+
+                var returnedReviews = reviews
+                    .Where(x => x.Decision == "Returned"
+                             && !string.IsNullOrWhiteSpace(x.Comments))
+                    .ToList();
+
+                if (returnedReviews.Any())
+                {
+                    <div class="border-top pt-4 mt-4">
+
+                        <h5 class="fw-bold mb-3">
+                            Review Comments
+                        </h5>
+
+                        @foreach (var review in returnedReviews)
+                        {
+                            <div class="alert alert-danger border-0 rounded-4 mb-3">
+
+                                <div class="d-flex align-items-center mb-2">
+
+                                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                                    <strong>
+                                        Report Returned
+                                    </strong>
+
+                                </div>
+
+                                <p class="mb-2">
+                                    @review.Comments
+                                </p>
+
+                                <small class="text-muted">
+                                    @review.ReviewDate.ToString("dd/MM/yyyy HH:mm")
+                                </small>
+
+                            </div>
+                        }
+
+                    </div>
+                }
+            }
+
+
+            <!-- SUPERVISOR ACTIONS -->
+            @if (role == "CompanySupervisor"
+                            && Model.Status == "PendingSupervisor")
+            {
+                <div class="border-top pt-4 mt-4">
+
+                    <h5 class="fw-bold mb-3">
+                        Supervisor Review
+                    </h5>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <!-- APPROVE -->
+
+                        <form asp-controller="Report"
+                              asp-action="SupervisorApprove"
+                              asp-route-id="@Model.WeeklyReportId"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-success px-4">
+
+                                <i class="bi bi-check-lg me-2"></i>
+                                Approve Report
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- RETURN -->
+
+                        <button type="button"
+                                class="btn btn-danger px-4"
+                                data-bs-toggle="modal"
+                                data-bs-target="#supervisorReturnModal">
+
+                            <i class="bi bi-arrow-return-left me-2"></i>
+                            Return Report
+
+                        </button>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- DOCTOR ACTIONS -->
+            @if (role == "Doctor"
+                            && Model.Status == "PendingDoctor")
+            {
+                <div class="border-top pt-4 mt-4">
+
+                    <h5 class="fw-bold mb-3">
+                        Doctor Review
+                    </h5>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <!-- APPROVE -->
+
+                        <form asp-controller="Report"
+                              asp-action="DoctorApprove"
+                              asp-route-id="@Model.WeeklyReportId"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-success px-4">
+
+                                <i class="bi bi-check-lg me-2"></i>
+                                Approve Report
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- RETURN -->
+
+                        <button type="button"
+                                class="btn btn-danger px-4"
+                                data-bs-toggle="modal"
+                                data-bs-target="#doctorReturnModal">
+
+                            <i class="bi bi-arrow-return-left me-2"></i>
+                            Return Report
+
+                        </button>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- BOTTOM BUTTONS -->
+
+            <div class="border-top pt-4 mt-4">
+
+                <div class="d-flex gap-2">
+
+                    <a asp-controller="Report"
+                       asp-action="Weekly"
+                       class="btn btn-secondary">
+
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Back
+
+                    </a>
+
+                    @if (role == "Student"
+                        && (Model.Status == "ReturnedBySupervisor"
+                        || Model.Status == "ReturnedByDoctor"))
+                    {
+                        <a asp-controller="Report"
+                           asp-action="EditWeekly"
+                           asp-route-id="@Model.WeeklyReportId"
+                           class="btn btn-primary">
+
+                            <i class="bi bi-pencil me-1"></i>
+                            Edit & Resubmit
+
+                        </a>
+                    }
+
+                </div>
+
             </div>
+
         </div>
+
     </div>
+
+</div>
+
+
+<!-- SUPERVISOR RETURN MODAL -->
+
+<div class="modal fade"
+     id="supervisorReturnModal"
+     tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content rounded-4 border-0">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title fw-bold">
+                    Return Report
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <form asp-controller="Report"
+                  asp-action="SupervisorReturn"
+                  asp-route-id="@Model.WeeklyReportId"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    <label class="form-label fw-semibold">
+                        Reason / Comments
+                    </label>
+
+                    <textarea name="comments"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Write your comments for the student..."
+                              required></textarea>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-light"
+                            data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        Return Report
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DOCTOR RETURN MODAL -->
+
+<div class="modal fade"
+     id="doctorReturnModal"
+     tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content rounded-4 border-0">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title fw-bold">
+                    Return Report
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <form asp-controller="Report"
+                  asp-action="DoctorReturn"
+                  asp-route-id="@Model.WeeklyReportId"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    <label class="form-label fw-semibold">
+                        Reason / Comments
+                    </label>
+
+                    <textarea name="comments"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Write your comments for the student..."
+                              required></textarea>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-light"
+                            data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        Return Report
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
 </div>

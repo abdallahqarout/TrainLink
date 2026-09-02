@@ -1,6 +1,7 @@
 using DAL;
 using DAL.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TrainLink
 {
@@ -32,6 +33,8 @@ namespace TrainLink
 
             // MVC
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => { options.LoginPath = "/Account/Login"; });
 
             // Session
             builder.Services.AddSession();
@@ -51,10 +54,11 @@ namespace TrainLink
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             // Session
             app.UseSession();
-
-            app.UseAuthorization();
 
             app.MapStaticAssets();
 

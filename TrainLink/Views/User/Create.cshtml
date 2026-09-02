@@ -1,5 +1,4 @@
-﻿```cshtml
-@model TrainLink.ViewModels.CreateUserViewModel
+﻿@model TrainLink.ViewModels.CreateUserViewModel
 
 @{
     ViewData["Title"] = "Create User";
@@ -291,16 +290,12 @@
 
                             <div class="row g-4">
 
-
                                 <!-- NAME -->
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
 
                                     <label asp-for="Name"
                                            class="form-label fw-semibold">
-
                                         Full Name
-
                                     </label>
 
                                     <input asp-for="Name"
@@ -313,16 +308,12 @@
 
                                 </div>
 
-
                                 <!-- EMAIL -->
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
 
                                     <label asp-for="Email"
                                            class="form-label fw-semibold">
-
                                         Email Address
-
                                     </label>
 
                                     <input asp-for="Email"
@@ -336,9 +327,27 @@
 
                                 </div>
 
-                            </div>
+                                <!-- PHONE -->
+                                <div class="col-md-4">
 
-                        </div>
+                                    <label asp-for="Phone"
+                                           class="form-label fw-semibold">
+                                        Phone Number
+                                    </label>
+
+                                    <input asp-for="Phone"
+                                           type="tel"
+                                           class="form-control form-control-lg rounded-3"
+                                           placeholder="07XXXXXXXX"
+                                           maxlength="10" />
+
+                                    <span asp-validation-for="Phone"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                            </div>
 
 
                         <!-- ROLE -->
@@ -712,4 +721,3 @@
 
     </script>
 }
-```

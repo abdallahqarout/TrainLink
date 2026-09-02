@@ -1,135 +1,225 @@
 ﻿@model DAL.Entities.WeeklyReport
+
 @{
     ViewData["Title"] = "Edit Weekly Report";
 }
+
 <div class="container py-5">
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">
+
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+
+        <div class="card-header bg-primary text-white p-4">
+
+            <h3 class="mb-1 fw-bold">
                 Edit Weekly Report
             </h3>
+
+            <p class="mb-0 opacity-75">
+                Update your report and resubmit it for review.
+            </p>
+
         </div>
-        <div class="card-body p-4">
+
+        <div class="card-body p-4 p-lg-5">
+
             <form asp-controller="Report"
                   asp-action="EditWeekly"
                   method="post">
+
                 @Html.AntiForgeryToken()
+
                 <input asp-for="WeeklyReportId"
                        type="hidden" />
+
                 <div asp-validation-summary="ModelOnly"
-                     class="text-danger mb-3">
+                     class="text-danger mb-4">
                 </div>
-                <!-- Training ID -->
-                <div class="mb-3">
-                    <label asp-for="TrainingId"
-                           class="form-label fw-semibold">
-                        Training ID
-                    </label>
-                    <input asp-for="TrainingId"
-                           type="number"
-                           class="form-control"
-                           required />
-                </div>
+
                 <!-- Report Type -->
-                <div class="mb-3">
+                <div class="mb-4">
+
                     <label class="form-label fw-semibold">
                         Report Type
                     </label>
+
                     <input type="text"
-                           class="form-control"
+                           class="form-control bg-light"
                            value="Weekly"
                            readonly />
+
                 </div>
+
                 <!-- Week Number -->
-                <div class="mb-3">
+                <div class="mb-4">
+
                     <label asp-for="WeekNumber"
                            class="form-label fw-semibold">
                         Week Number
                     </label>
+
                     <input asp-for="WeekNumber"
                            type="number"
                            class="form-control"
-                           min="1" />
+                           min="1"
+                           required />
+
+                    <span asp-validation-for="WeekNumber"
+                          class="text-danger">
+                    </span>
+
                 </div>
+
                 <!-- Dates -->
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+
+                    <div class="col-md-6 mb-4">
+
                         <label asp-for="DateFrom"
                                class="form-label fw-semibold">
                             Date From
                         </label>
+
                         <input asp-for="DateFrom"
                                type="date"
-                               class="form-control" />
+                               class="form-control"
+                               required />
+
+                        <span asp-validation-for="DateFrom"
+                              class="text-danger">
+                        </span>
+
                     </div>
-                    <div class="col-md-6 mb-3">
+
+                    <div class="col-md-6 mb-4">
+
                         <label asp-for="DateTo"
                                class="form-label fw-semibold">
                             Date To
                         </label>
+
                         <input asp-for="DateTo"
                                type="date"
-                               class="form-control" />
+                               class="form-control"
+                               required />
+
+                        <span asp-validation-for="DateTo"
+                              class="text-danger">
+                        </span>
+
                     </div>
+
                 </div>
+
                 <!-- Tasks -->
                 <div class="mb-4">
+
                     <label asp-for="Tasks"
                            class="form-label fw-semibold">
                         Completed Tasks and Activities
                     </label>
+
                     <textarea asp-for="Tasks"
                               class="form-control"
-                              rows="5"
+                              rows="6"
                               placeholder="Write completed tasks and activities..."></textarea>
+
+                    <span asp-validation-for="Tasks"
+                          class="text-danger">
+                    </span>
+
                 </div>
+
                 <!-- Skills -->
                 <div class="mb-4">
+
                     <label asp-for="Skills"
                            class="form-label fw-semibold">
                         Skills Learned
                     </label>
+
                     <textarea asp-for="Skills"
                               class="form-control"
-                              rows="5"
+                              rows="6"
                               placeholder="Write the skills you learned..."></textarea>
+
+                    <span asp-validation-for="Skills"
+                          class="text-danger">
+                    </span>
+
                 </div>
-                <!-- Remarks -->
+
+                <!-- Challenges -->
                 <div class="mb-4">
-                    <label asp-for="Remark"
+
+                    <label asp-for="Challenges"
                            class="form-label fw-semibold">
-                        Supervisor Remarks
+                        Challenges
                     </label>
-                    <textarea asp-for="Remark"
+
+                    <textarea asp-for="Challenges"
                               class="form-control"
                               rows="5"
-                              placeholder="Write supervisor remarks..."></textarea>
+                              placeholder="Write any challenges you faced..."></textarea>
+
+                    <span asp-validation-for="Challenges"
+                          class="text-danger">
+                    </span>
+
                 </div>
-                <!-- Submission Date -->
-                @*<div class="mb-4">
-                    <label asp-for="SubmissionDate"
+
+                <!-- Hours Worked -->
+                <div class="mb-4">
+
+                    <label asp-for="HoursWorked"
                            class="form-label fw-semibold">
-                        Submission Date
+                        Hours Worked
                     </label>
-                    <input asp-for="SubmissionDate"
-                           type="date"
+
+                    <input asp-for="HoursWorked"
+                           type="number"
                            class="form-control"
-                           readonly />
-                </div>*@
-                <div class="d-flex gap-2">
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Save Changes
-                    </button>
-                    <a asp-action="Weekly"
-                       class="btn btn-secondary">
-                        Cancel
-                    </a>
+                           min="0"
+                           step="0.5"
+                           required />
+
+                    <span asp-validation-for="HoursWorked"
+                          class="text-danger">
+                    </span>
+
                 </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+
+                        <i class="bi bi-send me-2"></i>
+                        Save & Resubmit
+
+                    </button>
+
+                    <a asp-controller="Report"
+                       asp-action="Weekly"
+                       class="btn btn-secondary px-4">
+
+                        <i class="bi bi-x-lg me-1"></i>
+                        Cancel
+
+                    </a>
+
+                </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

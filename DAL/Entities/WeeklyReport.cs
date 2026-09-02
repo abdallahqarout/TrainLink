@@ -12,9 +12,10 @@ namespace DAL.Entities
         public string? Tasks { get; set; }
         public string? Skills { get; set; }
         public string? Remark { get; set; }
-        public string Challenges { get; set; }
+        public string? Challenges { get; set; }
         public decimal HoursWorked { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = "PendingSupervisor";
+       
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Training? Training { get; set; }

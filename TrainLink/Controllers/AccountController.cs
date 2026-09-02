@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DAL.Services;
 using DAL.Entities;
-
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 namespace TrainLink.Controllers
@@ -15,21 +17,17 @@ namespace TrainLink.Controllers
             _userService = userService;
         }
 
-        // GET: /Account/Login
+        //Login
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
-            var user = _userService
-                .GetByEmail(email)
-                .FirstOrDefault();
-
+            var user = _userService.GetByEmail(email).FirstOrDefault();
             if (user == null)
             {
                 ViewBag.ErrorMessage = "Invalid email or password.";
@@ -38,25 +36,29 @@ namespace TrainLink.Controllers
 
             if (user.Password != password)
             {
-                ViewBag.ErrorMessage = "Invalid email or password.";
+                ViewBag.ErrorMessage = "Invalid password.";
                 return View();
             }
-
-            // Save user information in Session
-            HttpContext.Session.SetInt32("UserId", user.UserId);
-            HttpContext.Session.SetString("Email", user.Email);
-            HttpContext.Session.SetString("Role", user.Role);
-
+            var clamis = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+            var identity = new ClaimsIdentity(clamis, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             return RedirectToAction("Index", "Training");
         }
+        
 
         // Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction(nameof(Login));
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
     }
 }

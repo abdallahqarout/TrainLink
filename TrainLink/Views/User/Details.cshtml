@@ -1,0 +1,377 @@
+﻿@model TrainLink.ViewModels.UserDetailsViewModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                User Details
+            </h2>
+
+            <p class="text-muted mb-0">
+                View complete information about this user.
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary rounded-3 px-4">
+            <i class="bi bi-arrow-left me-2"></i>
+            Back
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CARD -->
+    <div class="card border-0 shadow rounded-4 overflow-hidden">
+
+        <!-- PROFILE TOP -->
+        <div class="bg-primary text-white p-4 p-md-5">
+
+            <div class="d-flex align-items-center">
+
+                <!-- AVATAR -->
+                <div class="bg-white text-primary rounded-circle
+                    d-flex align-items-center justify-content-center
+                    flex-shrink-0 shadow"
+                     style="width:90px; height:90px;">
+
+                    <span class="fs-1 fw-bold">
+                        @(string.IsNullOrEmpty(Model.Name)
+                            ? "U"
+                            : Model.Name.Substring(0, 1).ToUpper())
+                    </span>
+
+                </div>
+
+
+                <!-- USER NAME -->
+                <div class="ms-4">
+
+                    <h3 class="fw-bold mb-1">
+                        @Model.Name
+                    </h3>
+
+                    <p class="mb-2 opacity-75">
+                        <i class="bi bi-envelope me-2"></i>
+                        @Model.Email
+                    </p>
+
+
+                    @if (Model.Role == "Student")
+                    {
+                        <span class="badge bg-success rounded-pill px-3 py-2">
+                            <i class="bi bi-mortarboard me-1"></i>
+                            Student
+                        </span>
+                    }
+                    else if (Model.Role == "Doctor")
+                    {
+                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                            <i class="bi bi-person-badge me-1"></i>
+                            Doctor
+                        </span>
+                    }
+                    else if (Model.Role == "CompanySupervisor")
+                    {
+                        <span class="badge bg-info text-dark rounded-pill px-3 py-2">
+                            <i class="bi bi-building me-1"></i>
+                            Company Supervisor
+                        </span>
+                    }
+                    else if (Model.Role == "Admin")
+                    {
+                        <span class="badge bg-danger rounded-pill px-3 py-2">
+                            <i class="bi bi-shield-check me-1"></i>
+                            Admin
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+        <div class="card-body p-4 p-md-5">
+
+
+            <!-- BASIC INFORMATION -->
+            <div class="d-flex align-items-center mb-4">
+
+                <div class="bg-primary-subtle text-primary rounded-3 p-2 me-3">
+                    <i class="bi bi-person-vcard fs-5"></i>
+                </div>
+
+                <div>
+                    <h5 class="fw-bold mb-0">
+                        Basic Information
+                    </h5>
+
+                    <small class="text-muted">
+                        Personal account information
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="row g-3 mb-5">
+
+                <!-- NAME -->
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 h-100">
+
+                        <small class="text-muted d-block mb-2">
+                            <i class="bi bi-person me-1"></i>
+                            Full Name
+                        </small>
+
+                        <span class="fw-semibold">
+                            @Model.Name
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 h-100">
+
+                        <small class="text-muted d-block mb-2">
+                            <i class="bi bi-envelope me-1"></i>
+                            Email
+                        </small>
+
+                        <span class="fw-semibold">
+                            @Model.Email
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 h-100">
+
+                        <small class="text-muted d-block mb-2">
+                            <i class="bi bi-telephone me-1"></i>
+                            Phone Number
+                        </small>
+
+                        <span class="fw-semibold">
+                            @(string.IsNullOrEmpty(Model.Phone)
+                                ? "Not provided"
+                                : Model.Phone)
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STUDENT INFORMATION -->
+            @if (Model.Role == "Student")
+            {
+                <div class="d-flex align-items-center mb-4">
+
+                    <div class="bg-success-subtle text-success rounded-3 p-2 me-3">
+                        <i class="bi bi-mortarboard fs-5"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-0">
+                            Student Information
+                        </h5>
+
+                        <small class="text-muted">
+                            Academic information
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3 mb-5">
+
+                    <!-- UNIVERSITY -->
+                    <div class="col-md-4">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-building me-1"></i>
+                                University
+                            </small>
+
+                            <span class="fw-semibold">
+                                @(string.IsNullOrEmpty(Model.UniversityName)
+                                    ? "Not provided"
+                                    : Model.UniversityName)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STUDENT NUMBER -->
+                    <div class="col-md-4">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-hash me-1"></i>
+                                Student Number
+                            </small>
+
+                            <span class="fw-semibold">
+                                @(string.IsNullOrEmpty(Model.StudentNumber)
+                                    ? "Not provided"
+                                    : Model.StudentNumber)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MAJOR -->
+                    <div class="col-md-4">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-book me-1"></i>
+                                Major
+                            </small>
+
+                            <span class="fw-semibold">
+                                @(string.IsNullOrEmpty(Model.Major)
+                                    ? "Not provided"
+                                    : Model.Major)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- DOCTOR INFORMATION -->
+            @if (Model.Role == "Doctor")
+            {
+                <div class="d-flex align-items-center mb-4">
+
+                    <div class="bg-warning-subtle text-warning rounded-3 p-2 me-3">
+                        <i class="bi bi-person-badge fs-5"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-0">
+                            Doctor Information
+                        </h5>
+
+                        <small class="text-muted">
+                            University information
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3 mb-5">
+
+                    <div class="col-md-4">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-building me-1"></i>
+                                University
+                            </small>
+
+                            <span class="fw-semibold">
+                                @(string.IsNullOrEmpty(Model.UniversityName)
+                                    ? "Not provided"
+                                    : Model.UniversityName)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- COMPANY SUPERVISOR INFORMATION -->
+            @if (Model.Role == "CompanySupervisor")
+            {
+                <div class="d-flex align-items-center mb-4">
+
+                    <div class="bg-info-subtle text-info rounded-3 p-2 me-3">
+                        <i class="bi bi-building fs-5"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-0">
+                            Company Information
+                        </h5>
+
+                        <small class="text-muted">
+                            Company supervisor information
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-building me-1"></i>
+                                Company
+                            </small>
+
+                            <span class="fw-semibold">
+                                @(string.IsNullOrEmpty(Model.CompanyName)
+                                    ? "Not provided"
+                                    : Model.CompanyName)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
