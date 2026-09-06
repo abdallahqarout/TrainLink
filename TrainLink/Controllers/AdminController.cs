@@ -34,12 +34,12 @@ namespace TrainLink.Controllers
         // ADD UNIVERSITY
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddUniversity(string name,string email,string phone,string address)
+        public async Task<IActionResult> AddUniversity(string name, string email, string phone, string address)
         {
-            if (string.IsNullOrWhiteSpace(name) ||string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(phone) ||string.IsNullOrWhiteSpace(address))
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(address))
             {
-                TempData["Error"] ="All university fields are required.";
+                TempData["Error"] = "All university fields are required.";
                 return RedirectToAction("Admin", "Management");
             }
 
@@ -47,17 +47,20 @@ namespace TrainLink.Controllers
 
             if (existingUnv != null)
             {
-                TempData["Error"] ="This university already exists.";
+                TempData["Error"] = "This university already exists.";
                 return RedirectToAction("Admin", "Management");
             }
 
             var university = new University
             {
-                Name =name, Email =email, Phone =phone, Address =address
+                Name = name,
+                Email = email,
+                Phone = phone,
+                Address = address
             };
 
             await _universityService.Add(university);
-            TempData["Success"] ="University added successfully.";
+            TempData["Success"] = "University added successfully.";
             return RedirectToAction("Admin", "Management");
         }
 
@@ -66,12 +69,12 @@ namespace TrainLink.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCompany(string name,string email,string phone,string address)
+        public async Task<IActionResult> AddCompany(string name, string email, string phone, string address)
         {
-            if (string.IsNullOrWhiteSpace(name) ||string.IsNullOrWhiteSpace(email) ||
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(address))
             {
-                TempData["Error"] ="All company fields are required.";
+                TempData["Error"] = "All company fields are required.";
                 return RedirectToAction("Admin", "Management");
             }
 
@@ -79,16 +82,19 @@ namespace TrainLink.Controllers
 
             if (existingCom != null)
             {
-                TempData["Error"] ="This company already exists.";
+                TempData["Error"] = "This company already exists.";
                 return RedirectToAction("Admin", "Management");
             }
 
             var company = new Company
             {
-                Name = name,Email = email,Phone = phone,Address = address
+                Name = name,
+                Email = email,
+                Phone = phone,
+                Address = address
             };
             await _companyService.Add(company);
-            TempData["Success"] ="Company added successfully.";
+            TempData["Success"] = "Company added successfully.";
             return RedirectToAction("Admin", "Management");
         }
 
@@ -107,8 +113,8 @@ namespace TrainLink.Controllers
             }
 
             await _universityService.Delete(id);
-            TempData["Success"] ="University deleted successfully.";
-            return RedirectToAction("Admin", "Management");
+            TempData["Success"] = "University deleted successfully.";
+            return RedirectToAction("Management", "Admin");
         }
 
 
@@ -126,9 +132,71 @@ namespace TrainLink.Controllers
             }
             await _companyService.Delete(id);
 
-            TempData["Success"] ="Company deleted successfully.";
+            TempData["Success"] = "Company deleted successfully.";
 
-            return RedirectToAction("Admin", "Management");
+            return RedirectToAction("Management", "Admin");
+        }
+
+
+        [HttpGet]
+        public IActionResult View(int id, string type)
+        {
+            if (string.IsNullOrEmpty(type))
+            {
+                return BadRequest();
+            }
+
+            // UNIVERSITY
+            if (type == "University")
+            {
+                var university = _universityService
+                    .GetById(id)
+                    .FirstOrDefault();
+
+                if (university == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new ManagementDetailsViewModel
+                {
+                    Id = university.UniversityId,
+                    Type = "University",
+                    Name = university.Name,
+                    Email = university.Email,
+                    Phone = university.Phone,
+                    Address = university.Address
+                };
+
+                return View(model);
+            }
+
+            // COMPANY
+            if (type == "Company")
+            {
+                var company = _companyService
+                    .GetById(id)
+                    .FirstOrDefault();
+
+                if (company == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new ManagementDetailsViewModel
+                {
+                    Id = company.CompanyId,
+                    Type = "Company",
+                    Name = company.Name,
+                    Email = company.Email,
+                    Phone = company.Phone,
+                    Address = company.Address
+                };
+
+                return View(model);
+            }
+
+            return NotFound();
         }
     }
 }

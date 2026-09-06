@@ -1,4 +1,6 @@
 ﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DAL.Services
 {
@@ -30,13 +32,13 @@ namespace DAL.Services
 
         public async Task Add(User user)
         {
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(user);           
             await _context.SaveChangesAsync();
         }
 
         public async Task Update(User user)
         {
-            _context.Users.Update(user);
+            _context.Users.Update(user);         
             await _context.SaveChangesAsync();
         }
 
