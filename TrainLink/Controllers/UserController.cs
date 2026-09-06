@@ -242,7 +242,7 @@ namespace TrainLink.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                Password = "",
+                Password = model.Password,
                 Role = model.Role,
                 Phone =model.Phone
             };
@@ -288,154 +288,8 @@ namespace TrainLink.Controllers
             }
 
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","User");
         }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetPassword(
-            int userId,
-            string newPassword,
-            string confirmPassword)
-        {
-            // Check password
-            if (string.IsNullOrWhiteSpace(newPassword))
-            {
-                TempData["Error"] =
-                    "Password is required.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            // Check confirmation
-            if (newPassword != confirmPassword)
-            {
-                TempData["Error"] =
-                    "Passwords do not match.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            // Find User
-            var user = _userService
-                .GetById(userId)
-                .FirstOrDefault();
-
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-
-            // Set password
-            user.Password = newPassword;
-
-
-            await _userService.Update(user);
-
-
-            TempData["Success"] =
-                "Password has been saved successfully.";
-
-
-            return RedirectToAction(nameof(Index));
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddUniversity(
-            string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                TempData["Error"] =
-                    "University name is required.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            var existingUniversity = _universityService
-                .GetByName(name)
-                .FirstOrDefault();
-
-
-            if (existingUniversity != null)
-            {
-                TempData["Error"] =
-                    "This university already exists.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            var university = new University
-            {
-                Name = name
-            };
-
-
-            await _universityService.Add(university);
-
-
-            TempData["Success"] =
-                "University added successfully.";
-
-
-            return RedirectToAction(nameof(Index));
-        }
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCompany(
-            string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                TempData["Error"] =
-                    "Company name is required.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            var existingCompany = _companyService
-                .GetByName(name)
-                .FirstOrDefault();
-
-
-            if (existingCompany != null)
-            {
-                TempData["Error"] =
-                    "This company already exists.";
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            var company = new Company
-            {
-                Name = name
-            };
-
-
-            await _companyService.Add(company);
-
-
-            TempData["Success"] =
-                "Company added successfully.";
-
-
-            return RedirectToAction(nameof(Index));
-        }
-
 
         public IActionResult Details(int id)
         {

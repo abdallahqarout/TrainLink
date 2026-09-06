@@ -74,19 +74,16 @@
     <!-- STATISTICS -->
     <div class="row g-4 mb-4">
 
-
         <!-- TOTAL USERS -->
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-3">
 
             <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body p-4">
 
-                    <div class="d-flex justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-secondary mb-1">
                                 Total Users
                             </p>
@@ -94,7 +91,6 @@
                             <h2 class="fw-bold mb-0">
                                 @Model.Count()
                             </h2>
-
                         </div>
 
                         <div class="bg-primary-subtle text-primary
@@ -118,17 +114,15 @@
 
 
         <!-- STUDENTS -->
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-3">
 
             <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body p-4">
 
-                    <div class="d-flex justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-secondary mb-1">
                                 Students
                             </p>
@@ -136,7 +130,6 @@
                             <h2 class="fw-bold mb-0">
                                 @Model.Count(x => x.Role == "Student")
                             </h2>
-
                         </div>
 
                         <div class="bg-success-subtle text-success
@@ -160,17 +153,15 @@
 
 
         <!-- DOCTORS -->
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-3">
 
             <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body p-4">
 
-                    <div class="d-flex justify-content-between
-                        align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-secondary mb-1">
                                 Doctors
                             </p>
@@ -178,7 +169,6 @@
                             <h2 class="fw-bold mb-0">
                                 @Model.Count(x => x.Role == "Doctor")
                             </h2>
-
                         </div>
 
                         <div class="bg-warning-subtle text-warning
@@ -200,8 +190,48 @@
 
         </div>
 
+
+        <!-- COMPANY SUPERVISORS -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-secondary mb-1">
+                                Supervisors
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.Count(x => x.Role == "CompanySupervisor")
+                            </h2>
+                        </div>
+
+                        <div class="bg-danger-subtle text-danger
+                            rounded-4 d-flex align-items-center
+                            justify-content-center"
+                             style="width:55px;height:55px;">
+
+                            <span class="fs-4 fw-bold">
+                                S
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
+    
 
     <!-- USERS TABLE -->
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
@@ -383,15 +413,67 @@
                                         rounded-3 px-3">
                                         View
                                     </a>
+
                                     <!-- DELETE -->
-                                    <form asp-action="Delete"method="post"class="d-inline">
+                                    <form asp-action="Delete" method="post" class="d-inline">
                                         @Html.AntiForgeryToken()
-                                        <input type="hidden"name="id"value="@user.UserId" />
-                                        <button type="submit"class="btn btn-sm btn-outline-danger rounded-3 px-3"
-                                                onclick="return confirm('Are you sure you want to delete this user?');">
+                                        <input type="hidden" name="id" value="@user.UserId" />
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger rounded-3 px-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal-@user.UserId">
                                             Delete
                                         </button>
                                     </form>
+                                    <!-- Delete Confirmation Modal -->
+                                    <div class="modal fade" id="deleteModal-@user.UserId" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content border-0 shadow rounded-4">
+                                                <div class="modal-header border-0">
+                                                    <h5 class="modal-title fw-bold text-danger">
+                                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                                        Delete User
+                                                    </h5>
+                                                    <button type="button"class="btn-close"data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-center px-4">
+                                                    <div class="mb-3">
+                                                        <i class="bi bi-person-x-fill text-danger"
+                                                           style="font-size: 3rem;"></i>
+                                                    </div>
+                                                    <h5 class="fw-semibold">
+                                                        Are you sure?
+                                                    </h5>
+                                                    <p class="text-secondary mb-0">
+                                                        Are you sure you want to delete
+                                                        <strong>@user.Name</strong>?
+                                                    </p>
+                                                    <small class="text-muted">
+                                                        This action cannot be undone.
+                                                    </small>
+                                                </div>
+                                                <div class="modal-footer border-0 justify-content-center pb-4">
+                                                    <button type="button"
+                                                            class="btn btn-light rounded-3 px-4"
+                                                            data-bs-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <form asp-action="Delete" method="post">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden"
+                                                               name="id"
+                                                               value="@user.UserId" />
+                                                        <button type="submit"
+                                                                class="btn btn-danger rounded-3 px-4">
+                                                            <i class="bi bi-trash-fill me-1"></i>
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -401,3 +483,137 @@
         </div>
     </div>
 </div>
+<style>
+    body {
+        background-color: #eef2f7;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: 1px solid #dfe5ec !important;
+        border-radius: 16px !important;
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+        }
+
+    .bg-primary {
+        background-color: #2563eb !important;
+    }
+
+    .text-primary {
+        color: #2563eb !important;
+    }
+
+    .btn-primary {
+        background-color: #2563eb !important;
+        border-color: #2563eb !important;
+    }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8 !important;
+            border-color: #1d4ed8 !important;
+        }
+
+    .bg-primary-subtle {
+        background-color: #dbeafe !important;
+    }
+
+    .table-light {
+        --bs-table-bg: #f1f5f9;
+        --bs-table-color: #475569;
+    }
+
+    .table thead th {
+        color: #475569;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom-color: #e5eaf0;
+    }
+
+    .table-hover > tbody > tr:hover > * {
+        background-color: #eff6ff;
+    }
+
+    .bg-success-subtle {
+        background-color: #dcfce7 !important;
+    }
+
+    .text-success {
+        color: #15803d !important;
+    }
+
+    .bg-warning-subtle {
+        background-color: #ffedd5 !important;
+    }
+
+    .text-warning {
+        color: #c2410c !important;
+    }
+
+    .bg-info-subtle {
+        background-color: #cffafe !important;
+    }
+
+    .text-info {
+        color: #0891b2 !important;
+    }
+
+    .bg-danger-subtle {
+        background-color: #fee2e2 !important;
+    }
+
+    .text-danger {
+        color: #dc2626 !important;
+    }
+
+    .bg-secondary-subtle {
+        background-color: #e2e8f0 !important;
+    }
+
+    .text-secondary {
+        color: #475569 !important;
+    }
+
+    .btn-outline-primary {
+        color: #2563eb;
+        border-color: #93c5fd;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+        }
+
+    .btn-outline-danger {
+        color: #dc2626;
+        border-color: #fca5a5;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc2626;
+            border-color: #dc2626;
+            color: #ffffff;
+        }
+
+    .alert-success {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .alert-danger {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .badge {
+        font-weight: 600;
+    }
+</style>
