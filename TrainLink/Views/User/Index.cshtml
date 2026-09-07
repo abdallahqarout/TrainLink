@@ -425,53 +425,6 @@
                                             Delete
                                         </button>
                                     </form>
-                                    <!-- Delete Confirmation Modal -->
-                                    <div class="modal fade" id="deleteModal-@user.UserId" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content border-0 shadow rounded-4">
-                                                <div class="modal-header border-0">
-                                                    <h5 class="modal-title fw-bold text-danger">
-                                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        Delete User
-                                                    </h5>
-                                                    <button type="button"class="btn-close"data-bs-dismiss="modal">
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body text-center px-4">
-                                                    <div class="mb-3">
-                                                        <i class="bi bi-person-x-fill text-danger"
-                                                           style="font-size: 3rem;"></i>
-                                                    </div>
-                                                    <h5 class="fw-semibold">
-                                                        Are you sure?
-                                                    </h5>
-                                                    <p class="text-secondary mb-0">
-                                                        Are you sure you want to delete
-                                                        <strong>@user.Name</strong>?
-                                                    </p>
-                                                    
-                                                </div>
-                                                <div class="modal-footer border-0 justify-content-center pb-4">
-                                                    <button type="button"
-                                                            class="btn btn-light rounded-3 px-4"
-                                                            data-bs-dismiss="modal">
-                                                        Cancel
-                                                    </button>
-                                                    <form asp-action="Delete" method="post">
-                                                        @Html.AntiForgeryToken()
-                                                        <input type="hidden"
-                                                               name="id"
-                                                               value="@user.UserId" />
-                                                        <button type="submit"
-                                                                class="btn btn-danger rounded-3 px-4">
-                                                            <i class="bi bi-trash-fill me-1"></i>
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
