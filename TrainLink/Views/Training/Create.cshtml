@@ -34,500 +34,309 @@
     </div>
 
 
-    <!-- Main Layout -->
+
     <div class="row g-4">
-
-        <!-- LEFT SIDE -->
         <div class="col-lg-4">
-
             <div class="card border-0 shadow-sm rounded-4 h-100">
-
                 <div class="card-body p-4 p-xl-5">
-
                     <div class="mb-4">
-
                         <div class="bg-primary text-white rounded-4 d-inline-flex
                             align-items-center justify-content-center"
                              style="width:65px;height:65px;">
-
                             <span class="fs-3 fw-bold">T</span>
-
                         </div>
-
                     </div>
-
-
                     <h3 class="fw-bold mb-3">
                         Training Setup
                     </h3>
-
                     <p class="text-secondary">
                         Create a complete training record by selecting the
                         participants, company and training period.
                     </p>
-
-
-                    <!-- Steps -->
-
                     <div class="mt-5">
-
                         <div class="d-flex align-items-start mb-4">
-
                             <div class="rounded-circle bg-primary text-white
                                 d-flex align-items-center justify-content-center
                                 flex-shrink-0"
                                  style="width:40px;height:40px;">
                                 1
                             </div>
-
                             <div class="ms-3">
                                 <h6 class="fw-bold mb-1">
                                     Participants
                                 </h6>
-
                                 <small class="text-secondary">
                                     Student, doctor and supervisor
                                 </small>
                             </div>
-
                         </div>
-
-
                         <div class="d-flex align-items-start mb-4">
-
                             <div class="rounded-circle bg-primary-subtle text-primary
                                 d-flex align-items-center justify-content-center
                                 flex-shrink-0"
                                  style="width:40px;height:40px;">
                                 2
                             </div>
-
                             <div class="ms-3">
                                 <h6 class="fw-bold mb-1">
                                     Company
                                 </h6>
-
                                 <small class="text-secondary">
                                     Select the training company
                                 </small>
                             </div>
-
                         </div>
-
-
                         <div class="d-flex align-items-start mb-4">
-
                             <div class="rounded-circle bg-primary-subtle text-primary
                                 d-flex align-items-center justify-content-center
                                 flex-shrink-0"
                                  style="width:40px;height:40px;">
                                 3
                             </div>
-
                             <div class="ms-3">
                                 <h6 class="fw-bold mb-1">
                                     Duration
                                 </h6>
-
                                 <small class="text-secondary">
                                     Set start and end dates
                                 </small>
                             </div>
-
                         </div>
-
-
                         <div class="d-flex align-items-start">
-
                             <div class="rounded-circle bg-primary-subtle text-primary
                                 d-flex align-items-center justify-content-center
                                 flex-shrink-0"
                                  style="width:40px;height:40px;">
                                 4
                             </div>
-
                             <div class="ms-3">
                                 <h6 class="fw-bold mb-1">
                                     Status
                                 </h6>
-
                                 <small class="text-secondary">
                                     Set the training status
                                 </small>
                             </div>
-
                         </div>
-
                     </div>
-
-
-                    <!-- Info Box -->
-
                     <div class="alert alert-primary border-0 rounded-4 mt-5 mb-0">
-
                         <div class="fw-bold mb-1">
                             Tip
                         </div>
-
                         <small>
                             Make sure the selected supervisor belongs
                             to the selected company.
                         </small>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
-
 
         <!-- RIGHT SIDE -->
         <div class="col-lg-8">
-
             <div class="card border-0 shadow-sm rounded-4">
-
                 <div class="card-body p-4 p-xl-5">
-
                     <form asp-action="Create" method="post">
-
-                        @Html.AntiForgeryToken()
-
-
-                        <!-- Validation -->
-
-                        <div asp-validation-summary="All"
-                             class="alert alert-danger rounded-3">
-                        </div>
-
-
-                        <!-- SECTION 1 -->
-
+                        @Html.AntiForgeryToken()                     
                         <div class="mb-5">
-
                             <div class="d-flex align-items-center mb-4">
-
                                 <div class="bg-primary-subtle text-primary
                                     rounded-3 p-3 me-3">
                                     <span class="fw-bold">01</span>
                                 </div>
-
                                 <div>
                                     <h5 class="fw-bold mb-0">
                                         Participants
                                     </h5>
-
                                     <small class="text-secondary">
                                         Assign people to this training
                                     </small>
                                 </div>
-
                             </div>
-
-
                             <div class="row g-4">
-
-                                <!-- Student -->
-
                                 <div class="col-md-6">
-
                                     <label asp-for="StudentId"
                                            class="form-label fw-semibold">
                                         Student
                                     </label>
-
                                     <select asp-for="StudentId"
                                             asp-items="ViewBag.Students"
                                             class="form-select form-select-lg rounded-3">
-
                                         <option value="">
                                             Select Student
                                         </option>
-
                                     </select>
-
                                     <span asp-validation-for="StudentId"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
-
-                                <!-- Doctor -->
-
                                 <div class="col-md-6">
-
                                     <label asp-for="DoctorId"
                                            class="form-label fw-semibold">
                                         University Doctor
                                     </label>
-
                                     <select asp-for="DoctorId"
                                             asp-items="ViewBag.Doctors"
                                             class="form-select form-select-lg rounded-3">
-
                                         <option value="">
                                             Select University Doctor
                                         </option>
-
                                     </select>
-
                                     <span asp-validation-for="DoctorId"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </div>
-
-
-                        <!-- SECTION 2 -->
-
                         <div class="border-top pt-5 mb-5">
-
                             <div class="d-flex align-items-center mb-4">
-
                                 <div class="bg-success-subtle text-success
                                     rounded-3 p-3 me-3">
                                     <span class="fw-bold">02</span>
                                 </div>
-
                                 <div>
                                     <h5 class="fw-bold mb-0">
                                         Company Assignment
                                     </h5>
-
                                     <small class="text-secondary">
                                         Choose company and supervisor
                                     </small>
                                 </div>
-
                             </div>
-
-
-                            <div class="row g-4">
-
-                                <!-- Company -->
-
+                            <div class="row g-4">                              
                                 <div class="col-md-6">
-
                                     <label asp-for="CompanyId"
                                            class="form-label fw-semibold">
                                         Company
                                     </label>
-
                                     <select asp-for="CompanyId"
                                             asp-items="ViewBag.Companies"
                                             class="form-select form-select-lg rounded-3">
-
                                         <option value="">
                                             Select Company
                                         </option>
-
                                     </select>
-
                                     <span asp-validation-for="CompanyId"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
-
-                                <!-- Supervisor -->
-
                                 <div class="col-md-6">
-
                                     <label asp-for="CompanySupervisorId"
                                            class="form-label fw-semibold">
                                         Company Supervisor
                                     </label>
-
                                     <select asp-for="CompanySupervisorId"
                                             asp-items="ViewBag.CompanySupervisors"
                                             class="form-select form-select-lg rounded-3">
-
                                         <option value="">
                                             Select Supervisor
                                         </option>
-
                                     </select>
-
                                     <span asp-validation-for="CompanySupervisorId"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </div>
-
-
-                        <!-- SECTION 3 -->
-
                         <div class="border-top pt-5 mb-5">
-
                             <div class="d-flex align-items-center mb-4">
-
                                 <div class="bg-warning-subtle text-warning
                                     rounded-3 p-3 me-3">
                                     <span class="fw-bold">03</span>
                                 </div>
-
                                 <div>
                                     <h5 class="fw-bold mb-0">
                                         Training Period
                                     </h5>
-
                                     <small class="text-secondary">
                                         Define the training duration
                                     </small>
                                 </div>
-
                             </div>
-
-
                             <div class="row g-4">
-
-                                <!-- Start -->
-
                                 <div class="col-md-6">
-
                                     <label asp-for="DateFrom"
                                            class="form-label fw-semibold">
                                         Start Date
                                     </label>
-
                                     <input asp-for="DateFrom"
                                            type="date"
                                            class="form-control form-control-lg rounded-3" />
-
                                     <span asp-validation-for="DateFrom"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
-
-                                <!-- End -->
-
                                 <div class="col-md-6">
-
                                     <label asp-for="DateTo"
                                            class="form-label fw-semibold">
                                         End Date
                                     </label>
-
                                     <input asp-for="DateTo"
                                            type="date"
                                            class="form-control form-control-lg rounded-3" />
-
                                     <span asp-validation-for="DateTo"
                                           class="text-danger small">
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </div>
-
-
-                        <!-- SECTION 4 -->
-
                         <div class="border-top pt-5">
-
                             <div class="d-flex align-items-center mb-4">
-
                                 <div class="bg-info-subtle text-info
                                     rounded-3 p-3 me-3">
                                     <span class="fw-bold">04</span>
                                 </div>
-
                                 <div>
                                     <h5 class="fw-bold mb-0">
                                         Training Status
                                     </h5>
-
                                     <small class="text-secondary">
                                         Choose the current training status
                                     </small>
                                 </div>
-
                             </div>
-
-
                             <label asp-for="Status"
                                    class="form-label fw-semibold">
                                 Status
                             </label>
-
                             <select asp-for="Status"
                                     class="form-select form-select-lg rounded-3">
-
                                 <option value="">
                                     Select Training Status
                                 </option>
-
                                 <option value="Active">
                                     Active
                                 </option>
-
                                 <option value="Completed">
                                     Completed
                                 </option>
-
                                 <option value="Cancelled">
                                     Cancelled
                                 </option>
-
                             </select>
-
                             <span asp-validation-for="Status"
                                   class="text-danger small">
                             </span>
-
                         </div>
-
-
-                        <!-- BUTTONS -->
-
                         <div class="d-flex flex-column flex-sm-row
                             justify-content-end gap-2
                             border-top mt-5 pt-4">
-
                             <a asp-action="Index"
                                class="btn btn-light border rounded-3 px-4 py-2">
-
                                 Cancel
-
                             </a>
-
                             <button type="submit"
                                     class="btn btn-primary rounded-3 px-5 py-2 fw-semibold">
-
                                 Create Training
-
                             </button>
-
                         </div>
-
                     </form>
-
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 
-
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
-
 }

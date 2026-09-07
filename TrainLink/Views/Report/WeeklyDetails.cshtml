@@ -2,9 +2,11 @@
 
 @{
     ViewData["Title"] = "Weekly Report Details";
-    var role = Context.Session.GetString("Role");
+  
 }
-
+@{
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+}
 <div class="container py-5">
 
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden">

@@ -134,14 +134,14 @@ namespace TrainLink.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWeekly(WeeklyReport report)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            if (userId == null)
+            if (!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login", "Account");
             }
             var student = _studentService
-                .GetByUserId(userId.Value)
+                .GetByUserId(userId)
                 .FirstOrDefault();
 
             if (student == null)
@@ -569,13 +569,13 @@ namespace TrainLink.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SupervisorApprove(int id)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login", "Account");
             }
             var supervisor = _companySupervisorService
-                .GetByUserId(userId.Value)
+                .GetByUserId(userId)
                 .FirstOrDefault();
 
             if (supervisor == null)
@@ -613,7 +613,7 @@ namespace TrainLink.Controllers
             await _reportReviewService.Add(new ReportReview
             {
                 WeeklyReportId = report.WeeklyReportId,
-                ReviewerUserId = userId.Value,
+                ReviewerUserId = userId,
                 Decision = "Approved",
                 Comments = "Approved by company supervisor.",
                 ReviewDate = DateTime.Now
@@ -627,8 +627,8 @@ namespace TrainLink.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SupervisorReturn(int id,string comments)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -636,7 +636,7 @@ namespace TrainLink.Controllers
             {
                 return BadRequest("Comments are required.");
             }
-            var supervisor = _companySupervisorService.GetByUserId(userId.Value).FirstOrDefault();
+            var supervisor = _companySupervisorService.GetByUserId(userId).FirstOrDefault();
             if (supervisor == null)
             {
                 return Unauthorized();
@@ -665,7 +665,7 @@ namespace TrainLink.Controllers
             await _reportReviewService.Add(new ReportReview
             {
                 WeeklyReportId = report.WeeklyReportId,
-                ReviewerUserId = userId.Value,
+                ReviewerUserId = userId,
                 Decision = "Returned",
                 Comments = comments,
                 ReviewDate = DateTime.Now
@@ -679,13 +679,13 @@ namespace TrainLink.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DoctorApprove(int id)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            var doctor = _doctorService.GetByUserId(userId.Value).FirstOrDefault();
+            var doctor = _doctorService.GetByUserId(userId).FirstOrDefault();
             if (doctor == null)
             {
                 return Unauthorized();
@@ -714,7 +714,7 @@ namespace TrainLink.Controllers
             await _reportReviewService.Add(new ReportReview
             {
                 WeeklyReportId = report.WeeklyReportId,
-                ReviewerUserId = userId.Value,
+                ReviewerUserId = userId,
                 Decision = "Approved",
                 Comments = "Approved by university doctor.",
                 ReviewDate = DateTime.Now
@@ -728,8 +728,8 @@ namespace TrainLink.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DoctorReturn(int id,string comments)
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -737,7 +737,7 @@ namespace TrainLink.Controllers
             {
                 return BadRequest("Comments are required.");
             }
-            var doctor = _doctorService.GetByUserId(userId.Value).FirstOrDefault();
+            var doctor = _doctorService.GetByUserId(userId).FirstOrDefault();
             if (doctor == null)
             {
                 return Unauthorized();
@@ -766,7 +766,7 @@ namespace TrainLink.Controllers
             await _reportReviewService.Add(new ReportReview
             {
                 WeeklyReportId = report.WeeklyReportId,
-                ReviewerUserId = userId.Value,
+                ReviewerUserId = userId,
                 Decision = "Returned",
                 Comments = comments,
                 ReviewDate = DateTime.Now

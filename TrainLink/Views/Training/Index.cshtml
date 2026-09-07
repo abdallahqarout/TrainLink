@@ -142,7 +142,7 @@
                         <th class="py-3 text-muted small">
                             STATUS
                         </th>
-                        @if (Context.Session.GetString("Role") == "Admin")
+                        @if (role == "Admin")
                         {
                             <th class="py-3 text-muted small text-center">
                                 ACTIONS
@@ -232,7 +232,7 @@
                                     }
 
                                 </td>
-                                @if (Context.Session.GetString("Role") == "Admin")
+                                @if (role == "Admin")
                                 {
                                     <td class="text-center">
                                         <div class="dropdown">

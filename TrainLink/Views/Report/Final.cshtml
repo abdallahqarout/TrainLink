@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Final Reports";
 }
+@{
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+}
 
 <div class="container py-5">
 
@@ -18,7 +21,7 @@
                 Manage final training reports
             </p>
         </div>
-        @if (Context.Session.GetString("Role") == "Student")
+        @if (role == "Student")
         {
             <a asp-action="CreateFinal"
                class="btn btn-primary">
